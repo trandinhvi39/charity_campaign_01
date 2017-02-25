@@ -124,4 +124,9 @@ class Campaign extends Model
     {
         return $this->userCampaigns->pluck('id', 'user_id')->has($userId);
     }
+
+    public function checkOwnerOfCampaignByUserId($userId)
+    {
+        return $this->userCampaigns->where('is_owner', config('constants.OWNER'))->pluck('id', 'user_id')->has($userId);
+    }
 }

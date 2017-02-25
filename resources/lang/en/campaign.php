@@ -123,5 +123,6 @@ return [
     'users' => 'users',
     'event' => 'Events',
     'schedules' => 'Schedules',
+    'create_event' => 'Create event',
 
 ];

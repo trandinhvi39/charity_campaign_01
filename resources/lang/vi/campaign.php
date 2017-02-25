@@ -123,5 +123,6 @@ return [
     'users' => 'Người dùng',
     'event' => 'Sự kiện',
     'schedules' => 'Kế hoạch - Lịch trình',
+    'create_event' => 'Tạo sự kiện',
 
 ];

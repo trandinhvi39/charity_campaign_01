@@ -205,28 +205,31 @@
             @include('layouts.user_rating')
 
             <div class="col-md-4 right-panel">
-                @if ($campaign->events->count())
-                    <div class="block">
-                        <div class="block-title themed-background-dark">
-                            <h4 class="block-title-light campaign-title">
-                                <strong>{{ trans('campaign.event') }}</strong>
-                            </h4>
-                        </div>
-                        <div class="widget-extra">
-                            <div class="timeline">
-                                <ul class="">
-                                    @foreach ($campaign->events as $event)
-                                        <li class="media event active fix-float font-size-progress-bar">
-                                            <div class="pull-left">
-                                                <span class="label label-default">{{ $loop->index + 1 }}</span> <a href="{{ URL::action('EventController@show', $event->id) }}">{{ $event->title }}</a>
-                                            </div>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                <div class="block">
+                    <div class="block-title themed-background-dark">
+                        <h4 class="block-title-light campaign-title">
+                            <strong>{{ trans('campaign.event') }}</strong>
+                        </h4>
+                    </div>
+                    <div class="widget-extra">
+                        <div class="timeline">
+                            <ul class="">
+                                @foreach ($campaign->events as $event)
+                                    <li class="media event active fix-float font-size-progress-bar">
+                                        <div class="pull-left">
+                                            <span class="label label-default">{{ $loop->index + 1 }}</span> <a href="{{ URL::action('EventController@show', $event->id) }}">{{ $event->title }}</a>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
-                @endif
+                        @if (auth()->id() && $campaign->checkOwnerOfCampaignByUserId(auth()->id()))
+                            <a class="btn btn-raised btn-success" href="{{ URL::action('EventController@createEvent', $campaign->id) }}">
+                                {{ trans('campaign.create_event') }}
+                            </a>
+                        @endif
+                </div>
 
                 @if ($results)
                     <div class="block">

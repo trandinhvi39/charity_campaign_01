@@ -28,6 +28,8 @@ use App\Repositories\Group\GroupRepository;
 use App\Repositories\Group\GroupRepositoryInterface;
 use App\Repositories\Event\EventRepository;
 use App\Repositories\Event\EventRepositoryInterface;
+use App\Repositories\Schedule\ScheduleRepository;
+use App\Repositories\Schedule\ScheduleRepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -62,5 +64,6 @@ class AppServiceProvider extends ServiceProvider
         App::bind(MessageRepositoryInterface::class, MessageRepository::class);
         App::bind(GroupRepositoryInterface::class, GroupRepository::class);
         App::bind(EventRepositoryInterface::class, EventRepository::class);
+        App::bind(ScheduleRepositoryInterface::class, ScheduleRepository::class);
     }
 }
