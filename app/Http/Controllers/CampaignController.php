@@ -3,25 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CampaignRequest;
-use App\Models\Category;
-use Illuminate\Http\Request;
+use App\Models\Campaign;
+use App\Models\Event;
 use App\Repositories\Campaign\CampaignRepositoryInterface;
 use App\Repositories\Category\CategoryRepositoryInterface;
-use App\Models\Campaign;
 use App\Repositories\Contribution\ContributionRepositoryInterface;
+use App\Repositories\Group\GroupRepositoryInterface;
+use App\Repositories\Message\MessageRepositoryInterface;
 use App\Repositories\Rating\RatingRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
-use App\Repositories\Message\MessageRepositoryInterface;
-use App\Repositories\Group\GroupRepositoryInterface;
-use Validator;
-use App\Models\User;
 use App\Services\Purifier;
+use Illuminate\Http\Request;
+use Validator;
 
 class CampaignController extends BaseController
 {
 
     protected $campaignRepository;
     protected $campaign;
+    protected $event;
     protected $categoryRepository;
     protected $contributionRepository;
     protected $ratingRepository;
@@ -33,6 +33,7 @@ class CampaignController extends BaseController
     public function __construct(
         CampaignRepositoryInterface $campaignRepository,
         Campaign $campaign,
+        Event $event,
         CategoryRepositoryInterface $categoryRepository,
         ContributionRepositoryInterface $contributionRepository,
         RatingRepositoryInterface $ratingRepository,
@@ -42,6 +43,7 @@ class CampaignController extends BaseController
     ) {
         $this->campaignRepository = $campaignRepository;
         $this->campaign = $campaign;
+        $this->event = $event;
         $this->categoryRepository = $categoryRepository;
         $this->contributionRepository = $contributionRepository;
         $this->ratingRepository = $ratingRepository;
@@ -57,8 +59,11 @@ class CampaignController extends BaseController
      */
     public function index()
     {
-        $this->dataView['campaigns'] = $this->campaignRepository->getAll()->paginate(config('constants.PAGINATE'));
-        $this->dataView['users'] = $this->userRepository->getUserByRating();
+        $this->dataView['campaigns'] = $this->campaignRepository->getAll()->paginate(config('constants.INDEX_CAMPAIGNS'));
+        $this->dataView['countUsers'] = $this->userRepository->count();
+        $this->dataView['countCampaigns'] = $this->campaign->count();
+        $this->dataView['countEvents'] = $this->event->count();
+        $this->dataView['countInteractives'] = $this->contributionRepository->getInteractive();
 
         return view('campaign.index', $this->dataView);
     }
@@ -147,6 +152,21 @@ class CampaignController extends BaseController
         $this->dataView['groupName'] = $this->groupRepository->getGroupNameByCampaignId($id);
 
         return view('campaign.show', $this->dataView);
+    }
+
+    public function review(Request $request)
+    {
+        if ($request->ajax()) {
+            $campaignId = $request->only('id');
+        }
+
+        $this->dataView['campaign'] = $this->campaignRepository->getDetail($campaignId['id']);
+
+        if (!$this->dataView['campaign']) {
+            return abort(404);
+        }
+
+        return view('campaign.review', $this->dataView);
     }
 
     public function joinOrLeaveCampaign(Request $request)

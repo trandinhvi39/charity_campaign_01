@@ -7,7 +7,8 @@ use App\Repositories\Event\EventRepositoryInterface;
 
 class EventRepository extends BaseRepository implements EventRepositoryInterface
 {
-    function model()
+
+    public function model()
     {
         return Event::class;
     }

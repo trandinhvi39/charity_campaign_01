@@ -9,7 +9,7 @@
 | by your application. Just tell Laravel the URIs it should respond
 | to using a Closure or controller method. Build something great!
 |
-*/
+ */
 
 Auth::routes();
 
@@ -18,42 +18,41 @@ Route::get('/home', 'HomeController@index');
 Route::resource('campaign-chat', 'CampaignChatController');
 
 Route::resource('language', 'MultipleLanguageController', [
-    'only' => ['store']
+    'only' => ['store'],
 ]);
 
-Route::get('register',[
-    'as' => 'register' ,
+Route::get('register', [
+    'as' => 'register',
     'uses' => 'Auth\UserRegisterController@getRegister',
 ]);
 
-Route::post('register',[
-    'as' => 'register' ,
+Route::post('register', [
+    'as' => 'register',
     'uses' => 'Auth\UserRegisterController@postRegister',
 ]);
 
-Route::get('login',[
-    'as' => 'get_login' ,
+Route::get('login', [
+    'as' => 'get_login',
     'uses' => 'Auth\UserLoginController@getLogin',
 ]);
 
-Route::post('login',[
-    'as' => 'post_login' ,
+Route::post('login', [
+    'as' => 'post_login',
     'uses' => 'Auth\UserLoginController@postLogin',
 ]);
 
-Route::get('logout',[
-    'as' => 'logout' ,
+Route::get('logout', [
+    'as' => 'logout',
     'uses' => 'Auth\UserLoginController@logout',
 ]);
 
-Route::get('link/verification/{id}/{tokenRegister?}',[
-    'as' => 'verification' ,
+Route::get('link/verification/{id}/{tokenRegister?}', [
+    'as' => 'verification',
     'uses' => 'Auth\VerifyController@index',
 ]);
 
 Route::get('/redirect/{provider}', 'Auth\SocialAuthController@redirect');
 Route::get('/callback/{provider}', 'Auth\SocialAuthController@callback');
-
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -82,7 +81,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('follow/user', 'FollowController@followOrUnFollowUser');
 });
 
+Route::get('campaigns', 'CampaignController@showCampaigns');
+
 Route::get('', 'CampaignController@index');
+
+Route::get('aboutUs', 'OrtherController@aboutUs');
+
+Route::get('faq', 'OrtherController@faq');
+
+Route::get('contact', 'OrtherController@contact');
+
+Route::post('review', 'CampaignController@review');
+
+Route::post('blog', 'BlogController@index');
 
 Route::get('campaigns/{id}', 'CampaignController@show');
 
@@ -93,9 +104,5 @@ Route::post('comment/create', 'CommentController@store');
 Route::post('request-join', 'CampaignController@joinOrLeaveCampaign');
 
 Route::get('campaign/search', 'CampaignController@searchCampaign');
-
-/*Route::get('/event', function () {
-    return view('event.index');
-});*/
 
 Route::resource('event', 'EventController');

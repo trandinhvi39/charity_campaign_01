@@ -1,16 +1,14 @@
 <?php
 namespace App\Repositories\Campaign;
 
+use App\Models\Campaign;
 use App\Models\Group;
 use App\Models\GroupMember;
-use App\Models\Message;
-use Auth;
-use Input;
-use App\Models\Campaign;
 use App\Models\Image;
 use App\Models\UserCampaign;
 use App\Repositories\BaseRepository;
 use App\Repositories\Campaign\CampaignRepositoryInterface;
+use Auth;
 use DB;
 use Illuminate\Container\Container;
 use \Carbon\Carbon;
@@ -25,7 +23,7 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
         parent::__construct($container);
     }
 
-    function model()
+    public function model()
     {
         return Campaign::class;
     }
@@ -43,14 +41,13 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
     public function createCampaign($params = [])
     {
         if (empty($params)) {
-
             return false;
         }
 
         DB::beginTransaction();
         try {
 
-            $image = $this->uploadImage($params['image'], config('path.campaign'));
+            $image = $this->uploadImage($params['image'], config('path.images'));
 
             $campaign = $this->model->create([
                 'name' => $params['name'],
@@ -69,7 +66,7 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
 
             $inputs = [];
             foreach ($goals as $key => $goal) {
-                foreach ($contributions as $k => $contribution)  {
+                foreach ($contributions as $k => $contribution) {
                     if ($key == $k && $contribution && $goal && $units[$k]) {
                         $inputs[] = [
                             'name' => $contribution[$key],
@@ -140,7 +137,6 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
         DB::beginTransaction();
         try {
             if ($userCampaign = $this->checkUserCampaign($params)) {
-
                 // remove group chat
                 $member = GroupMember::where([
                     'user_id' => $userCampaign->user_id,
@@ -184,7 +180,7 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
         return $this->model->whereHas('owner', function ($query) use ($userId) {
             $query->where('user_id', $userId)
                 ->where('is_owner', config('constants.OWNER'));
-            })
+        })
             ->orderBy('id', 'desc');
     }
 
@@ -327,7 +323,7 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
         return $this->model->with(['owner' => function ($query) use ($userId) {
             $query->where('user_id', $userId)
                 ->where('is_owner', config('constants.OWNER'));
-            }])
+        }])
             ->where('status', config('constants.ACTIVATED'))
             ->orderBy('id', 'desc');
     }
@@ -335,7 +331,6 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
     public function getMembers($id)
     {
         if (!$id) {
-
             return [];
         }
 

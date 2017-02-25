@@ -1,16 +1,15 @@
 <?php
 namespace App\Repositories\Contribution;
 
+use App\Models\Action;
 use App\Models\Category;
-use App\Models\CategoryCampaign;
-use Auth;
+use App\Models\CategoryContribution;
 use App\Models\Contribution;
 use App\Repositories\BaseRepository;
 use App\Repositories\Contribution\ContributionRepositoryInterface;
+use Auth;
 use DB;
 use Illuminate\Container\Container;
-use App\Models\CategoryContribution;
-use App\Models\Action;
 
 class ContributionRepository extends BaseRepository implements ContributionRepositoryInterface
 {
@@ -22,7 +21,7 @@ class ContributionRepository extends BaseRepository implements ContributionRepos
         parent::__construct($container);
     }
 
-    function model()
+    public function model()
     {
         return Contribution::class;
     }
@@ -37,7 +36,7 @@ class ContributionRepository extends BaseRepository implements ContributionRepos
         foreach ($params['amount'] as $key => $amount) {
             $inputs[] = [
                 'category_id' => $key,
-                'amount' => $amount != 0 ? $amount : 0,
+                'amount' => (int) $amount != 0 ? $amount : 0,
             ];
         }
 
@@ -67,10 +66,10 @@ class ContributionRepository extends BaseRepository implements ContributionRepos
             return false;
         }
 
-        $categoryContributions = CategoryContribution::whereHas('contribution', function($query) use ($id) {
+        $categoryContributions = CategoryContribution::whereHas('contribution', function ($query) use ($id) {
             $query->where('campaign_id', $id)
                 ->where('status', config('constants.ACTIVATED'));
-            })
+        })
             ->with('category')
             ->selectRaw('category_id, sum(amount) as amount')
             ->groupBy('category_id')
@@ -97,8 +96,10 @@ class ContributionRepository extends BaseRepository implements ContributionRepos
             $data[] = [
                 'name' => $categoryContribution->category->name,
                 'value' => $categoryContribution->amount,
-                'progress' => round($categoryContribution->amount/$categoryContribution->category->goal * 100,
-                    config('constants.ROUND_CHART')),
+                'progress' => round(
+                    $categoryContribution->amount / $categoryContribution->category->goal * 100,
+                    config('constants.ROUND_CHART')
+                ),
                 'goal' => $categoryContribution->category->goal,
                 'unit' => $categoryContribution->category->unit,
             ];
@@ -125,8 +126,7 @@ class ContributionRepository extends BaseRepository implements ContributionRepos
         }
 
         $contribution = $this->model->find($id);
-        if (empty($contribution))
-        {
+        if (!($contribution)) {
             return false;
         }
 
@@ -189,5 +189,10 @@ class ContributionRepository extends BaseRepository implements ContributionRepos
             ->with('user', 'categoryContributions')
             ->latest()
             ->get();
+    }
+
+    public function getInteractive()
+    {
+        return $this->model->groupBy('user_id')->count();
     }
 }

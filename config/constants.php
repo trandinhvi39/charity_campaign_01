@@ -24,4 +24,7 @@ return [
     ],
     'PAGINATE_CAMPAIGN' => 10,
     'USER_LIMIT' => 10,
+    'LIMIT_TITLE_CHARACTERS' => 50,
+    'LIMIT_DESCRIPTION_CHARACTERS' => 135,
+    'INDEX_CAMPAIGNS' => 3,
 ];

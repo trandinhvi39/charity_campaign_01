@@ -4,7 +4,8 @@ require('es6-promise').polyfill();
 elixir(function (mix) {
     mix.sass([
         'resources/assets/sass/base.scss',
-        'resources/assets/sass/common.scss'
+        'resources/assets/sass/common.scss',
+        'resources/assets/sass/custom.scss'
     ], 'public/css/');
 
     mix.copy('resources/assets/css', 'public/css');

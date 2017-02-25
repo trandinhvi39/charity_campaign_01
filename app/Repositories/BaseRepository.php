@@ -4,12 +4,11 @@
  */
 namespace App\Repositories;
 
-use Exception;
-use DB;
 use Auth;
-use Input;
-use Illuminate\Container\Container;
 use Carbon\Carbon;
+use DB;
+use Exception;
+use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseRepository
@@ -158,5 +157,4 @@ abstract class BaseRepository
 
         return $imageName;
     }
-
 }

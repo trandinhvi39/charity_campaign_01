@@ -1,13 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 
-use LRedis;
-use App\Http\Requests;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\Message\MessageRepositoryInterface as MessageRepository;
-use App\Repositories\Group\GroupRepositoryInterface as GroupRepository;
 use App\Models\User;
+use App\Repositories\Group\GroupRepositoryInterface as GroupRepository;
+use App\Repositories\Message\MessageRepositoryInterface as MessageRepository;
+use Illuminate\Http\Request;
+use LRedis;
 
 class CampaignChatController extends Controller
 {
@@ -25,7 +24,7 @@ class CampaignChatController extends Controller
 
     public function store(Request $request)
     {
-         if ($request->ajax()) {
+        if ($request->ajax()) {
             $inputs = $request->only([
                 'campaign_id',
                 'content',
@@ -33,7 +32,7 @@ class CampaignChatController extends Controller
 
             if (!trim($inputs['content'])) {
                 return response()->json([
-                    'success' => false
+                    'success' => false,
                 ]);
             }
 
