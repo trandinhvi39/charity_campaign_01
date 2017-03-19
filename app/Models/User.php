@@ -54,6 +54,9 @@ class User extends Authenticatable
         'name' => 'required|max:255',
         'email' => 'required|email|max:255|unique:users',
         'password' => 'required|min:6|confirmed',
+        'phone_number' => 'required',
+        'password' => 'required|min:6|max:30|confirmed',
+        'password_confirmation' => 'min:6'
     ];
 
     public $loginRules = [

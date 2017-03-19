@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use App\QueryFilter;
 
 class Campaign extends Model
 {
@@ -123,5 +124,10 @@ class Campaign extends Model
     public function checkMemberOfCampaignByUserId($userId)
     {
         return $this->userCampaigns->pluck('id', 'user_id')->has($userId);
+    }
+
+    public function scopeFilter($query, QueryFilter $filters)
+    {
+        return $filters->apply($query);
     }
 }

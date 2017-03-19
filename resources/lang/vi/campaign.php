@@ -123,5 +123,52 @@ return [
     'users' => 'Người dùng',
     'event' => 'Sự kiện',
     'schedules' => 'Kế hoạch - Lịch trình',
+    'label' => [
+        'search' => 'Tìm kiếm thông tin chiến dịch từ thiện...',
+        'STT' => 'Số thứ tự',
+        'name' => 'Tên',
+        'description' => 'Mô tả',
+        'image' => 'Hình ảnh',
+        'address' => 'địa chỉ',
+        'start_time' => 'Ngày bắt đầu',
+        'end_time' => 'Ngày kết thúc',
+        'required' => '*',
+    ],
+    'panel_head' => [
+        'index' => 'Danh sách chiến dịch từ thiện',
+        'create' => 'Taọ chiến dịch từ thiện',
+        'edit' => 'Chỉnh sửa chiến dịch từ thiện',
+    ],
+    'button' => [
+        'create' => 'Taọ',
+        'back' => 'Quay lại',
+        'edit' => 'Chỉnh sửa',
+        'reset_search' => 'Reset tìm kiếm',
+        'search' => 'Tìm kiếm',
+    ],
+    'message' => [
+        'confirm_delete' => 'Bạn có chắc chắn muốn xóa chiến dịch từ thiện này không?',
+        'not_found_campaigns' => 'Không tìm thâý chiến dịch từ thiện nào trong hệ thống',
+        'delete_success' => ' Xóa chiến dịch từ thiện thành công',
+        'delete_fail' => ' Xóa chiến dịch từ thiện bị lỗi',
+    ],
+    'tooltip' => [
+        'show' => 'Xem chiến dịch từ thiện này',
+        'delete' => 'Xóa chiến dịch từ thiện này',
+    ],
+    'placeholder' => [
+        'name' => 'Vui lòng nhập tên chiến dịch từ thiện...',
+        'desctiption' => 'Vui lòng nhập mô tả của chiến dịch từ thiện...',
+        'address' => 'Vui lòng nhập địa chỉ chiến dịch từ thiện...',
+        'start_time' => 'Vui lòng nhập ngày bắt đầu chiến dịch từ thiện...',
+        'end_time' => 'Vui lòng nhập nagỳ kết thúc chiến dịch từ thiện',
+    ],
+    'label_for' => [
+        'name' => 'Tên',
+        'description' => 'Mô tả',
+        'address' => 'địa chỉ',
+        'start_time' => 'Ngày bắt đầu',
+        'end_time' => 'Ngày kết thúc',
+    ],
 
 ];

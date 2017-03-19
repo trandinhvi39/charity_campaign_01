@@ -15,6 +15,7 @@
         {{ Html::style('http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css') }}
         {{ Html::style('css/templates.css') }}
         {{ Html::style('css/app.css') }}
+        {{ Html::style('css/admin.css') }}
     @show
 
 </head>

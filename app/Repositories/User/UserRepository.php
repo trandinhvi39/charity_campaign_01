@@ -39,6 +39,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         if (isset($params['avatar'])) {
             $params['avatar'] = $this->uploadImage($params['avatar'], config('path.to_avatar'));
+        } else {
+            $params['avatar'] = config('settings.avatar_default');
         }
 
         $user = $this->model->create($params);

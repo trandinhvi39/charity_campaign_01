@@ -61,6 +61,10 @@ class UserLoginController extends Controller
 
         if (Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')], $request->get('remember'))) {
 
+            if ($user->isAdmin()) {
+                return redirect()->action('Admin\UserController@index');
+            }
+
             return redirect('');
         }
 

@@ -100,4 +100,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.','mid
     Route::resource('user', 'UserController', [
         'except' => 'show',
     ]);
+
+    Route::resource('campaign', 'CampaignController');
 });

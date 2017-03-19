@@ -52,7 +52,7 @@
                     </div>
                 </div>
 
-                <!-- CHAT WORK -->
+                <!-- PHONE NUMBER -->
                 {{ Form::label(trans('user.label_for.phone_number'), trans('user.label.phone_number')) }}
                 <div class="form-group">
                     <div class="form-line">

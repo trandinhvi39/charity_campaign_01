@@ -6,6 +6,7 @@ return [
         'success' => 'Register account successfully',
         'error' => 'Register account error',
     ],
+    'title' => 'Manage User',
     'name' => 'Name',
     'email' => 'E-Mail Address',
     'password' => 'Password',
@@ -103,4 +104,5 @@ return [
         'avatar' => 'avatar',
         'password' => 'password',
     ],
+    'phone_number' => 'Phone number',
 ];

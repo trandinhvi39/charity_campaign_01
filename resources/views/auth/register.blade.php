@@ -44,6 +44,20 @@
                 </div>
             </div>
 
+            <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
+                <div class="col-xs-12">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                        {!! Form::text('phone_number', old('phone_number'), ['class' => 'form-control', 'placeholder' => trans('user.phone_number')]) !!}
+                        @if ($errors->has('phone_number'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('phone_number') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                 <div class="col-xs-12">
                     <div class="input-group">
@@ -70,7 +84,7 @@
             <div class="form-group form-actions">
                 <div class="col-xs-6 text-right pull-right">
                     <button type="submit" class="btn btn-raised btn-success"><i
-                                class="fa fa-plus"></i> {{ trans('message.register') }}</button>
+                        class="fa fa-plus"></i> {{ trans('message.register') }}</button>
                 </div>
             </div>
             <div class="form-group">
@@ -83,3 +97,6 @@
         </div>
     </div>
 @endsection
+
+{{ Html::script('bower_components/jquery/dist/jquery.min.js') }}
+{{ Html::script('js/preview_image.js') }}

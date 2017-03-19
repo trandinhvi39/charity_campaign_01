@@ -114,6 +114,26 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a href="javascript:void(0);" class="menu-toggle">
+                                <i class="material-icons">person</i>
+                                <span>{{ trans('label.nav_menu.campaign') }}</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li>
+                                    <a href="{{ URL::action('Admin\CampaignController@index') }}">
+                                        <i class="material-icons">person_add</i>
+                                        <span>{{ trans('campaign.panel_head.index') }}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ URL::action('Admin\CampaignController@create') }}">
+                                        <i class="material-icons">people</i>
+                                        <span>{{ trans('campaign.panel_head.create') }}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 <!-- #Menu -->

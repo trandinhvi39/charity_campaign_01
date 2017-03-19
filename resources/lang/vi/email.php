@@ -9,5 +9,10 @@ return [
     ],
     'subject' => 'Chiến dịch từ thiện',
     'not_exist' => 'Email không tồn tại',
+    'delete_campaign' => [
+        'subject' => 'Quản trị hệ thống xóa chiến dịch từ thiện của bạn',
+        'head' => 'Email này với mục đích thông báo với bạn răng chiến dịch từ thiện bên dưới của bạn đã bị chúng tôi xóa do chứa thông tin nhạy cảm',
+        'title' => 'Xóa chiến dịch từ thiện do chứa thông tin nhạy cảm',
+    ],
 
 ];

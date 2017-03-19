@@ -1,30 +1,30 @@
 @extends('admin.master')
 @section('title')
-    {{ trans('user.title') }}
+    {{ trans('campaign.title') }}
 @endsection
 @section('content')
     <div class="card">
         <div class="header">
             <h2>
-                {{ trans('user.panel_head.index') }}
-                <a href="{{ route('admin.user.create') }}"
+                {{ trans('campaign.panel_head.index') }}
+                <a href="{{ URL::action('CampaignController@create') }}"
                    class="btn btn-success btn-lg waves-effect">
-                    {{ trans('user.button.create') }}
+                    {{ trans('campaign.button.create') }}
                 </a>
             </h2>
         </div>
         <div class="body table-responsive">
         @include('layouts.error')
         @include('layouts.message')
-        <!-- USER SEARCH FORM -->
-        {{ Form::open(['route' => 'admin.user.index', 'method' => 'GET', 'class' => 'form-inline']) }}
+        <!-- CAMPAIGN SEARCH FORM -->
+        {{ Form::open(['route' => 'admin.campaign.index', 'method' => 'GET', 'class' => 'form-inline']) }}
         <div class="card">
             <div class="header bg-cyan" id="search-text">
                 <h5>
-                    {{ trans('user.label.search') }}
-                    <a href="{{ route('admin.user.index') }}"
+                    {{ trans('campaign.label.search') }}
+                    <a href="{{ route('admin.campaign.index') }}"
                        class="header-dropdown m-r--5 btn bg-red btn-xs waves-effect">
-                        {{ trans('user.button.reset_search') }}
+                        {{ trans('campaign.button.reset_search') }}
                     </a>
                 </h5>
             </div>
@@ -34,7 +34,7 @@
                     <!-- NAME -->
                     <div class="col-md-3">
                         <div class="form-group">
-                            <b>{{ trans('user.label.name') }}</b>
+                            <b>{{ trans('campaign.label.name') }}</b>
                             <div class="form-line">
                                 {{
                                     Form::text('name', isset($input['name']) ? $input['name'] : "", [
@@ -46,30 +46,30 @@
                         </div>
                     </div>
 
-                    <!-- EMAIL -->
+                    <!-- DESCRIPTION -->
                     <div class="col-md-3">
                         <div class="form-group">
-                            <b>{{ trans('user.label.email') }}</b>
+                            <b>{{ trans('campaign.label.description') }}</b>
                             <div class="form-line">
                                 {{
-                                    Form::text('email', isset($input['email']) ? $input['email'] : "", [
+                                    Form::text('description', isset($input['description']) ? $input['description'] : "", [
                                         'class' => 'form-control',
-                                        'id' => 'email',
+                                        'id' => 'description',
                                     ])
                                 }}
                             </div>
                         </div>
                     </div>
 
-                    <!-- PHONE NUMBER -->
+                    <!-- ADDRESS -->
                     <div class="col-md-3">
                         <div class="form-group">
-                            <b>{{ trans('user.label.phone_number') }}</b>
+                            <b>{{ trans('campaign.label.address') }}</b>
                             <div class="form-line">
                                 {{
-                                    Form::text('phone_number', isset($input['phone_number']) ? $input['phone_number'] : "", [
+                                    Form::text('address', isset($input['address']) ? $input['address'] : "", [
                                         'class' => 'form-control',
-                                        'id' => 'phone_number',
+                                        'id' => 'address',
                                     ])
                                 }}
                             </div>
@@ -79,53 +79,53 @@
                 <div class="row clearfix">
                     <div class="col-lg-4 col-lg-offset-4">
                         <button class="btn bg-cyan btn-block btn-lg waves-effect">
-                            {{ trans('user.button.search') }}
+                            {{ trans('campaign.button.search') }}
                         </button>
                     </div>
                 </div>
             </div>
         </div>
         {{ Form::close() }}
-        <!--END USER SEARCH FORM -->
+        <!--END CAMPAIGN SEARCH FORM -->
 
-            @if ($users->count())
+            @if ($campaigns->count())
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th>{{ trans('user.label.STT') }}</th>
-                        <th>{{ trans('user.label.name') }}</th>
-                        <th>{{ trans('user.label.email') }}</th>
-                        <th>{{ trans('user.label.phone_number') }}</th>
-                        <th>{{ trans('user.label.star') }}</th>
-                        <th>{{ trans('user.label.role') }}</th>
-                        <th>{{ trans('user.label.avatar') }}</th>
+                        <th>{{ trans('campaign.label.STT') }}</th>
+                        <th>{{ trans('campaign.label.name') }}</th>
+                        <th>{{ trans('campaign.label.description') }}</th>
+                        <th>{{ trans('campaign.label.image') }}</th>
+                        <th>{{ trans('campaign.label.address') }}</th>
+                        <th>{{ trans('campaign.label.start_time') }}</th>
+                        <th>{{ trans('campaign.label.end_time') }}</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($users as $user)
+                    @foreach($campaigns as $campaign)
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->phone_number }}</td>
-                            <td>{{ $user->star }}</td>
-                            <td>{{ $user->showRole() }}</td>
-                            <td><img src="{{ $user->avatar }}" class="img-responsive img-circle img-user"></td>
+                            <td>{{ $campaign->name }}</td>
+                            <td>{{ $campaign->description }}</td>
+                            <td><img src="{{ $campaign->image->image }}" class="img-campaign"></td>
+                            <td>{{ $campaign->address }}</td>
+                            <td>{{ $campaign->start_time }}</td>
+                            <td>{{ $campaign->end_time }}</td>
                             <td>
                             {{
                                 Form::open([
-                                    'route' => ['admin.user.destroy', $user->id],
+                                    'route' => ['admin.campaign.destroy', $campaign->id],
                                     'method' => 'DELETE',
-                                    'onsubmit' => 'return confirmDelete("' . trans('user.message.confirm_delete') . '")',
+                                    'onsubmit' => 'return confirmDelete("' . trans('campaign.message.confirm_delete') . '")',
                                 ])
                             }}
 
                                 <!-- BUTTON EDIT USER -->
-                                <a href="{{ route('admin.user.edit', ['id' => $user->id]) }}"
+                                <a href="{{ URL::action('CampaignController@show', $campaign->id) }}"
                                    class="btn bg-orange btn-xs" data-toggle="tooltip" data-placement="top"
-                                   title="" data-original-title="{{ trans('user.tooltip.edit') }}">
-                                    <i class="material-icons">edit</i>
+                                   title="" data-original-title="{{ trans('campaign.tooltip.show') }}">
+                                    <i class="material-icons">forward</i>
                                 </a>
 
                                 <!-- BUTTON DELETE POLL -->
@@ -136,7 +136,7 @@
                                         'data-toggle' => 'tooltip',
                                         'data-placement' => 'top',
                                         'title' => '',
-                                        'data-original-title' => trans('user.tooltip.delete'),
+                                        'data-original-title' => trans('campaign.tooltip.delete'),
                                         'onclick' => 'return confirm("' . trans('label.confirm_delete') . '")'
                                     ])
                                 }}
@@ -148,20 +148,20 @@
                 </table>
                 <div class="dataTables_info">
                     {{
-                        trans_choice('label.paginations', $users->total(), [
-                            'start' => $users->firstItem(),
-                            'finish' => $users->lastItem(),
-                            'numberOfRecords' => $users->total()
+                        trans_choice('label.paginations', $campaigns->total(), [
+                            'start' => $campaigns->firstItem(),
+                            'finish' => $campaigns->lastItem(),
+                            'numberOfRecords' => $campaigns->total()
                         ])
                     }}
                 </div>
                 <div class="pagination pagination-lg">
-                    {{ (isset($linkFilter) ? $linkFilter : $users->render()) }}
+                    {{ (isset($linkFilter) ? $linkFilter : $campaigns->render()) }}
                 </div>
             @else
                 <div class="card">
                     <div class="body bg-light-blue">
-                        {{ trans('user.message.not_found_users') }}
+                        {{ trans('campaign.message.not_found_campaigns') }}
                     </div>
                 </div>
             @endif

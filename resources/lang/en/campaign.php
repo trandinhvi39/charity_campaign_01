@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'title' => 'Manage Campaign',
     'index' => '#',
     'list' => 'List Campaign',
     'create' => 'Create Campaign',
@@ -123,5 +124,52 @@ return [
     'users' => 'users',
     'event' => 'Events',
     'schedules' => 'Schedules',
+    'label' => [
+        'search' => 'Search information of campaign...',
+        'STT' => 'No',
+        'name' => 'Name',
+        'description' => 'Description',
+        'image' => 'Image',
+        'address' => 'Address',
+        'start_time' => 'Start time',
+        'end_time' => 'End time',
+        'required' => '*',
+    ],
+    'panel_head' => [
+        'index' => 'List campaigns',
+        'create' => 'Create campaign',
+        'edit' => 'Edit campaign',
+    ],
+    'button' => [
+        'create' => 'Create',
+        'back' => 'Back',
+        'edit' => 'Edit',
+        'reset_search' => 'Reset search',
+        'search' => 'Search',
+    ],
+    'message' => [
+        'confirm_delete' => 'Are you sure you want to delete this campaign?',
+        'not_found_campaigns' => 'Can\'t found list of campaigns in system',
+        'delete_success' => ' Delete campaign SUCCESS',
+        'delete_fail' => ' Delete campaign FAIL',
+    ],
+    'tooltip' => [
+        'show' => 'Show this campaign',
+        'delete' => 'Delete this campaign',
+    ],
+    'placeholder' => [
+        'name' => 'Please enter full name of campaign...',
+        'desctiption' => 'Please enter description of campaign...',
+        'address' => 'Please enter address of campaign...',
+        'start_time' => 'Please enter start time of campaign...',
+        'end_time' => 'Please enter end time of campaign',
+    ],
+    'label_for' => [
+        'name' => 'name',
+        'description' => 'Description',
+        'address' => 'Address',
+        'start_time' => 'Start time',
+        'end_time' => 'End time',
+    ],
 
 ];

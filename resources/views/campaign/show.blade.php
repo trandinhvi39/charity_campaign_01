@@ -292,7 +292,7 @@
                         <div class="timeline">
                             <div class="request-join">
                                 @if ($campaign->status)
-                                    @if (Auth::user())
+                                    @if (auth()->check())
                                         {!! Form::open(['method' => 'POST', 'id' => 'formRequest']) !!}
                                         {!! Form::hidden('campaign_id', $campaign->id) !!}
                                         @if (empty($userCampaign))

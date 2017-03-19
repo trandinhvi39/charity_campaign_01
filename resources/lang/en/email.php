@@ -9,5 +9,10 @@ return [
     ],
     'subject' => 'Charity Campaign',
     'not_exist' => 'Email not exist',
+    'delete_campaign' => [
+        'subject' => 'Admin delete this campaign',
+        'head' => 'This mail to info with you that campaign below deleted',
+        'title' => 'Delete campaign',
+    ],
 
 ];

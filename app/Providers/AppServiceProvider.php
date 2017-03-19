@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Session::put('locale', 'vi');
+        Session::put('locale', 'en');
 
         Validator::extendImplicit('campaign', 'App\Validation\CampaignValidate@campaign');
         Validator::extendImplicit('amount', 'App\Validation\ContributionValidate@amount');
