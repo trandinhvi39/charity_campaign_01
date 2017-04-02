@@ -171,5 +171,6 @@ return [
         'start_time' => 'Start time',
         'end_time' => 'End time',
     ],
+    'suggest_campaign' => 'Suggested campaigns',
 
 ];

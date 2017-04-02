@@ -163,6 +163,11 @@ class UserController extends BaseController
         }
 
         $this->dataView['campaign'] = $this->campaignRepository->getDetail($campaignId);
+
+        if (!$this->dataView['campaign']) {
+            return abort(404);
+        }
+
         $this->dataView['averageRankingUser'] = $this->ratingRepository->averageRatingUser($this->dataView['user']->id);
         $this->dataView['campaignUsers'] = $this->userRepository->getUsersInCampaign($campaignId)
             ->paginate(config('constants.PAGINATE'));

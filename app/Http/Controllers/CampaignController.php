@@ -95,7 +95,7 @@ class CampaignController extends BaseController
             'unit',
         ]);
 
-        $inputs['description'] = Purifier::clean($inputs['description']);
+        //$inputs['description'] = Purifier::clean($inputs['description']);
         $campaign = $this->campaignRepository->createCampaign($inputs);
 
         if (!$campaign) {
@@ -130,7 +130,11 @@ class CampaignController extends BaseController
             'campaign_id' => $id,
         ]);
 
+        //get list suggested campaigns
+        $this->dataView['suggestedCampaigns'] = $this->campaignRepository->getSuggestCampaigns($this->dataView['campaign']);
+
         // get list members of campaign
+        $this->dataView['campaignChat'] = $this->dataView['campaign'];
         $this->dataView['members'] = $this->campaignRepository->getMembers($id);
         $this->dataView['averageRanking'] = $this->ratingRepository->averageRatingCampaign($this->dataView['campaign']->id);
         $this->dataView['ratingChart'] = $this->ratingRepository->getRatingChart($id);
@@ -144,7 +148,7 @@ class CampaignController extends BaseController
             $this->dataView['messages'] = $this->messageRepository->getMessagesByGroupId($groupId);
         }
 
-        $this->dataView['groupName'] = $this->groupRepository->getGroupNameByCampaignId($id);
+        $this->dataView['groupName'] = $this->dataView['campaign']->name;
 
         return view('campaign.show', $this->dataView);
     }

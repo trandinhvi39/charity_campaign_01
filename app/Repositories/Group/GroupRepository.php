@@ -15,17 +15,10 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
 
     public function getGroupIdByCampaignId($campaignId)
     {
-        $campaign = $this->model->where('campaign_id', $campaignId)->first();
+        $group = $this->model->where('campaign_id', $campaignId)->first();
 
-        if ($campaign) {
-            return $campaign->id;
+        if ($group) {
+            return $group->id;
         }
-    }
-
-    public function getGroupNameByCampaignId($campaignId)
-    {
-        $campaign = $this->model->find($campaignId);
-
-        return $campaign ? $campaign->name : null;
     }
 }

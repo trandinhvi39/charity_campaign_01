@@ -30,6 +30,37 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
         return Campaign::class;
     }
 
+    public function getSuggestCampaigns($currentCampaign)
+    {
+        $campaigns = $this->model
+            ->where('status', config('constants.ACTIVATED'))
+            ->where('id', '<>', $currentCampaign->id)
+            ->get();
+        $distances = [];
+
+        if ($currentCampaign->lat && $currentCampaign->lng) {
+            if ($campaigns) {
+                foreach ($campaigns as $campaign) {
+                    if ($campaign->lat && $campaign->lng) {
+                        $distances[] = [
+                            'distance' => distanceGeoPoints($currentCampaign->lat, $currentCampaign->lng, $campaign->lat, $campaign->lng),
+                            'campaign' => $campaign,
+                        ];
+                    }
+                }
+            }
+
+            if (count($distances) >= config('settings.number_of_suggested_campaigns')) {
+                return collect($distances)
+                    ->sortBy('distance')
+                    ->pluck('campaign')
+                    ->take(config('settings.number_of_suggested_campaigns'));
+            }
+
+            return collect($distances)->sortBy('distance')->pluck('campaign');
+        }
+    }
+
     public function getAll()
     {
         return $this->model->with('image')

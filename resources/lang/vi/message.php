@@ -22,10 +22,8 @@ return [
     'or' => 'hoặc',
     'have_account' => 'Bạn chưa có tài khoản',
     'company' => [
-        'address' => 'Tầng 13, Keangnam Landmark 72, Đường Phạm Hùng, Nam Từ Liêm, Hà Nội, Việt Nam',
-        'name' => 'Copyright 2016 Framgia, Inc.',
-        'phone' => '84-4-3795-5417',
-        'email' => 'hr_team@framgia.com',
+        'address' => '54 Nguyễn Lương Bằng, Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng',
+        'phone' => ' 0236 3842 308',
     ],
     'reserved' => 'All rights reserved.',
     '404' => 'Lỗi 404',

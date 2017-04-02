@@ -1,12 +1,12 @@
-<div class="hide-chat" data-campaign-id="{{ $campaign->id }}"
+<div class="hide-chat" data-campaign-id="{{ $campaignChat->id }}"
     data-route-chat="{{ url('campaign-chat') }}"
     data-host="{{ config('app.key_program.socket_host') }}"
     data-port="{{ config('app.key_program.socket_port') }}">
 </div>
 <div class="group-chat">
-    <div class="hide-campaign-id" data-campaign-id="{{ $campaign->id }}"></div>
+    <div class="hide-campaign-id" data-campaign-id="{{ $campaignChat->id }}"></div>
     <div class="hide-user-id" data-current-user-id="{{ auth()->id() }}"></div>
-    <div class="row chat-window col-xs-5 col-md-3" id="chat_window_1" style="margin-left:10px;">
+    <div class="row chat-window col-xs-5 col-md-4" id="chat_window_1" style="margin-left:10px;">
         <div class="col-xs-12 col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading top-bar">

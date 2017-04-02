@@ -62,7 +62,7 @@ class CampaignsTableSeeder extends Seeder
 
             Group::create([
                 'campaign_id' => $campaign->id,
-                'name' => $faker->word,
+                'name' => $campaign->name,
             ]);
         });
     }

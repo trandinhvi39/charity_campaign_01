@@ -6,8 +6,8 @@ return [
     'create' => 'Taọ chiến dịch',
     'create_success' => 'Taọ chiến dịch thành công',
     'name' => 'Tên chiến dịch',
-    'start_date' => 'Ngaỳ bắt đầu',
-    'end_date' => 'Nagỳ kết thúc',
+    'start_date' => 'Ngày bắt đầu',
+    'end_date' => 'Ngày kết thúc',
     'image' => 'ảnh',
     'address' => 'Địa điểm',
     'description' => 'Mô tả',
@@ -117,7 +117,7 @@ return [
     'unconfirmed' => 'Chưa xác nhận',
     'search_campaign' => 'Tìm kiếm chiến dịch',
     'members' => 'Những thành viên',
-    'contributor' => 'Ngưòi đógn góp',
+    'contributor' => 'Ngưòi đóng góp',
     'progress' => 'Tiến độ',
     'activities' => 'Hoạt động',
     'users' => 'Người dùng',
@@ -170,5 +170,6 @@ return [
         'start_time' => 'Ngày bắt đầu',
         'end_time' => 'Ngày kết thúc',
     ],
+    'suggest_campaign' => 'Những chiến dịch từ thiện được đề xuất',
 
 ];

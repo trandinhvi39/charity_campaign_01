@@ -5,6 +5,7 @@
     {{ Html::style('bower_components/bootstrap-star-rating/css/star-rating.css') }}
     {{ Html::style('bower_components/bootstrap-star-rating/css/theme-krajee-fa.css') }}
     {{ Html::style('https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.5/css/bootstrap-dialog.min.css') }}
+    {{ Html::style('css/admin.css') }}
 @stop
 
 @section('js')
@@ -210,7 +211,7 @@
             @include('layouts.user_rating')
 
             <div class="col-md-4 right-panel">
-                @if ($campaign->events->count())
+                <!-- @if ($campaign->events->count())
                     <div class="block">
                         <div class="block-title themed-background-dark">
                             <h4 class="block-title-light campaign-title">
@@ -231,7 +232,7 @@
                             </div>
                         </div>
                     </div>
-                @endif
+                @endif -->
 
                 @if ($results)
                     <div class="block">
@@ -390,14 +391,38 @@
                                 </div>
                             @endif
                         </div>
-
                     </div>
                 </div>
+
+                <div class="block">
+                    <div class="block-title themed-background-dark">
+                        <h4 class="block-title-light campaign-title">
+                            <strong>{{ trans('campaign.suggest_campaign') }}</strong>
+                        </h4>
+                    </div>
+                    <div class="widget-extra">
+                        <div class="timeline">
+                            @if ($suggestedCampaigns)
+                               @foreach ($suggestedCampaigns as $campaign)
+                                    <center>
+                                        <a href="{{ $campaign->image->image }}" data-toggle="lightbox-image">
+                                        <img class="img-suggest-campaign" src="{{ $campaign->image->image }}" alt="image">
+                                        </a>
+                                    </center>
+                                    <h3><a href="{{ URL::action('CampaignController@show', $campaign->id) }}">{{ $campaign->name }}</a></h3>
+                                    <i>{{ $campaign->description }}</i>
+                                    <hr>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
-    @if (auth()->check() &&  ($campaign->owner->user_id == auth()->id()
-        || $campaign->checkMemberOfCampaignByUserId(auth()->id()))
+    @if (auth()->check() && ($campaignChat->owner->user_id == auth()->id()
+        || $campaignChat->checkMemberOfCampaignByUserId(auth()->id()))
     ))
         @include('layouts.chat')
     @endif
