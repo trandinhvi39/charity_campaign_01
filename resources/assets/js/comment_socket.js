@@ -17,6 +17,7 @@ $(document).ready(function(){
         if (data.success && data.campaign_id == campaignId) {
             $('#text').val('');
             $('.media-list').prepend(data.html);
+            $('.count-comments').html(parseInt($('.count-comments').html()) + 1);
         }
     });
 });

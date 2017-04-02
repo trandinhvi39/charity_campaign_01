@@ -30,7 +30,7 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
         return Campaign::class;
     }
 
-    public function getSuggestCampaigns($currentCampaign)
+    public function getSuggestNearestCampaigns($currentCampaign)
     {
         $campaigns = $this->model
             ->where('status', config('constants.ACTIVATED'))
@@ -59,6 +59,28 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
 
             return collect($distances)->sortBy('distance')->pluck('campaign');
         }
+    }
+
+    public function getSuggestHotestCampaigns($currentCampaign)
+    {
+        $campaigns = $this->model->where('id', '<>' ,$currentCampaign->id)->get();
+        $hotCampaigns = [];
+
+        foreach ($campaigns as $campaign) {
+            $hotCampaigns[] = [
+                'countMember' => count($this->getMembers($campaign->id)),
+                'campaign' => $campaign,
+            ];
+        }
+
+        if (count($hotCampaigns) >= config('settings.number_of_suggested_campaigns')) {
+            return collect($hotCampaigns)
+                ->sortByDesc('countMember')
+                ->pluck('campaign')
+                ->take(config('settings.number_of_suggested_campaigns'));
+        }
+
+        return collect($hotCampaigns)->sortByDesc('countMember')->pluck('campaign');
     }
 
     public function getAll()
@@ -179,7 +201,10 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
                     'group_id' => $group->id,
                 ])->first();
 
-                $member->delete();
+                if ($member) {
+                    $member->delete();
+                }
+
                 $userCampaign->delete();
                 DB::commit();
 
@@ -372,6 +397,7 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
         }
 
         return UserCampaign::where('campaign_id', $id)
+            ->where('status', config('constants.ACTIVATED'))
             ->where('is_owner', config('constants.NOT_OWNER'))
             ->with('user')
             ->get();

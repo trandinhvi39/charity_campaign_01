@@ -172,5 +172,6 @@ return [
         'end_time' => 'End time',
     ],
     'suggest_campaign' => 'Suggested campaigns',
-
+    'nearest' => 'Nearest',
+    'hotest' => 'Hotest',
 ];

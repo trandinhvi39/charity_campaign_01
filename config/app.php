@@ -170,6 +170,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Mews\Purifier\PurifierServiceProvider::class,
+        Kryptonit3\Counter\CounterServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -236,6 +237,7 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Purifier' => Mews\Purifier\Facades\Purifier::class,
         'LRedis'    => Illuminate\Support\Facades\Redis::class,
+        'Counter' => Kryptonit3\Counter\Facades\CounterFacade::class,
 
     ],
 

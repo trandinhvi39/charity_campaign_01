@@ -123,7 +123,9 @@ class Campaign extends Model
 
     public function checkMemberOfCampaignByUserId($userId)
     {
-        return $this->userCampaigns->pluck('id', 'user_id')->has($userId);
+        return $this->userCampaigns
+            ->where('status', config('constants.ACTIVATED'))
+            ->pluck('id', 'user_id')->has($userId);
     }
 
     public function scopeFilter($query, QueryFilter $filters)

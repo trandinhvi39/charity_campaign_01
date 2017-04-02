@@ -18,6 +18,7 @@
 @section('content')
     <div id="page-content">
         <div class="hide" data-token="{{ csrf_token() }}"></div>
+
         <div class="row">
             <div class="col-md-8 center-panel">
                 @foreach ($campaigns as $campaign)
@@ -107,6 +108,13 @@
                                            data-original-title="Comments">
                                             <i class="gi gi-comments"></i>
                                             <span>{{ $campaign->countComment($campaign->id) }}</span>
+                                        </a>
+                                    </div>
+                                     <div class="timeline-controls-item">
+                                        <a href="javascript:void(0)" class="comment" data-toggle="tooltip" title=""
+                                           data-original-title="Views">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                            <span>{{ Counter::show('campaign', $campaign->id) }}</span>
                                         </a>
                                     </div>
                                 </div>

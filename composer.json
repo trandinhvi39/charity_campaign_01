@@ -12,7 +12,8 @@
         "doctrine/dbal": "^2.5",
         "mews/purifier": "^2.0",
         "nicolaslopezj/searchable": "1.*",
-        "predis/predis": "^1.1"
+        "predis/predis": "^1.1",
+        "kryptonit3/counter": "5.2.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

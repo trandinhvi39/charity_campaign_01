@@ -112,8 +112,8 @@ return [
     'campaigns' => 'Những chiến dịch',
     'message_end_campaign' => 'Còn :time trưóc khi chiến dịch kết thúc.',
     'show_detail' => 'Xem chi tiết',
-    'confirmed' => 'Đã xác nhận',
-    'waiting' => 'DDang chờ',
+    'confirmed' => 'Xác nhận',
+    'waiting' => 'đang chờ',
     'unconfirmed' => 'Chưa xác nhận',
     'search_campaign' => 'Tìm kiếm chiến dịch',
     'members' => 'Những thành viên',
@@ -171,5 +171,6 @@ return [
         'end_time' => 'Ngày kết thúc',
     ],
     'suggest_campaign' => 'Những chiến dịch từ thiện được đề xuất',
-
+    'nearest' => 'Gần nhất',
+    'hotest' => 'Hot nhất',
 ];

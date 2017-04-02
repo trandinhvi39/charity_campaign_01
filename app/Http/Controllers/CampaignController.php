@@ -131,7 +131,8 @@ class CampaignController extends BaseController
         ]);
 
         //get list suggested campaigns
-        $this->dataView['suggestedCampaigns'] = $this->campaignRepository->getSuggestCampaigns($this->dataView['campaign']);
+        $this->dataView['nearestCampaigns'] = $this->campaignRepository->getSuggestNearestCampaigns($this->dataView['campaign']);
+        $this->dataView['hotestCampaigns'] = $this->campaignRepository->getSuggestHotestCampaigns($this->dataView['campaign']);
 
         // get list members of campaign
         $this->dataView['campaignChat'] = $this->dataView['campaign'];

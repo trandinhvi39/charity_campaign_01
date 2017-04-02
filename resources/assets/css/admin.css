@@ -26,3 +26,14 @@
     width: 160px;
     height: 120px;
 }
+
+.show-count-view {
+    color: white;
+}
+
+.img-member {
+    width: 25px;
+    height: 25px;
+    float: right;
+    margin-left: 3px;
+}

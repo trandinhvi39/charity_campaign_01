@@ -156,9 +156,16 @@
                                         <small>{{ trans('campaign.members') }}</small>
                                     </div>
                                     <div class="timeline-content">
-                                        <p class="push-bit">
+                                        <span class="push-bit">
                                             <a href=".list-members" data-toggle="modal" data-target=".list-members">{{ trans('campaign.members') }}</a>
-                                        </p>
+                                            @foreach ($members as $member)
+                                                <a href="{{ action('UserController@show', ['id' => $member->user->id]) }}">
+                                                    <img class="img-member img-circle" src="{{ $member->user->avatar }}">
+                                                </a>
+                                            @endforeach
+
+                                        </span>
+
                                     </div>
                                 </li>
                                 <li class="active">
@@ -185,6 +192,24 @@
                                 </li>
                             </ul>
                         </div>
+                         <div class="timeline-controls">
+                            <div class="timeline-controls-list">
+                                <div class="timeline-controls-item">
+                                    <a href="javascript:void(0)" class="comment" data-toggle="tooltip" title=""
+                                       data-original-title="Comments">
+                                        <i class="gi gi-comments"></i>
+                                        <span class="count-comments">{{ $campaign->countComment($campaign->id) }}</span>
+                                    </a>
+                                </div>
+                                 <div class="timeline-controls-item">
+                                    <a href="javascript:void(0)" class="comment" data-toggle="tooltip" title=""
+                                       data-original-title="Views">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                        <span>{{ Counter::showAndCount('campaign', $campaign->id) }}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <hr>
                         <div class="form-group col-lg-12 div-like-share">
                             <div class="fb-like"
@@ -194,7 +219,7 @@
                                 data-share="true">
                             </div>
                         </div>
-                        <hr>
+
                         @include('campaign.comment')
                     </div>
                 </div>
@@ -400,20 +425,43 @@
                             <strong>{{ trans('campaign.suggest_campaign') }}</strong>
                         </h4>
                     </div>
-                    <div class="widget-extra">
-                        <div class="timeline">
-                            @if ($suggestedCampaigns)
-                               @foreach ($suggestedCampaigns as $campaign)
-                                    <center>
-                                        <a href="{{ $campaign->image->image }}" data-toggle="lightbox-image">
-                                        <img class="img-suggest-campaign" src="{{ $campaign->image->image }}" alt="image">
-                                        </a>
-                                    </center>
-                                    <h3><a href="{{ URL::action('CampaignController@show', $campaign->id) }}">{{ $campaign->name }}</a></h3>
-                                    <i>{{ $campaign->description }}</i>
-                                    <hr>
-                                @endforeach
-                            @endif
+                    <div>
+                        <ul class="nav nav-tabs border-tab">
+                            <li class="active"><a href="#suggest-nearest" data-toggle="tab">{{ trans('campaign.nearest') }}</a></li>
+                            <li><a href="#suggest-hotest" data-toggle="tab">{{ trans('campaign.hotest') }}</a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="suggest-nearest">
+                                @if ($nearestCampaigns)
+                                   @foreach ($nearestCampaigns as $campaign)
+                                        <center>
+                                            <a href="{{ $campaign->image->image }}" data-toggle="lightbox-image">
+                                            <img class="img-suggest-campaign" src="{{ $campaign->image->image }}" alt="image">
+                                            </a>
+                                        </center>
+                                        <h3><a href="{{ URL::action('CampaignController@show', $campaign->id) }}">{{ $campaign->name }}</a></h3>
+                                        <i>{{ $campaign->address }}</i>
+                                        <hr>
+                                    @endforeach
+                                @endif
+                            </div>
+
+                            <div class="tab-pane fade" id="suggest-hotest">
+                                @if ($hotestCampaigns)
+                                   @foreach ($hotestCampaigns as $campaign)
+                                        <center>
+                                            <a href="{{ $campaign->image->image }}" data-toggle="lightbox-image">
+                                            <img class="img-suggest-campaign" src="{{ $campaign->image->image }}" alt="image">
+                                            </a>
+                                        </center>
+                                        <h3><a href="{{ URL::action('CampaignController@show', $campaign->id) }}">{{ $campaign->name }}</a></h3>
+                                        <i>{{ $campaign->address }}</i>
+                                        <hr>
+                                    @endforeach
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>

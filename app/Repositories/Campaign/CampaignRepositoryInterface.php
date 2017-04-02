@@ -28,4 +28,8 @@ interface CampaignRepositoryInterface
     public function getUserCampaigns($userId);
 
     public function getMembers($id);
+
+    public function getSuggestNearestCampaigns($currentCampaign);
+
+    public function getSuggestHotestCampaigns($currentCampaign);
 }
