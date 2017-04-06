@@ -93,6 +93,80 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
             ->orderBy('id', 'desc');
     }
 
+    public function updateCampaign($params = [], $id)
+    {
+        if (empty($params)) {
+
+            return false;
+        }
+
+        $campaign = $this->find($id);
+
+        if (!$campaign) {
+            return false;
+        }
+
+        DB::beginTransaction();
+        try {
+            if (isset($params['image'])) {
+                $image = $this->uploadImage($params['image'], config('path.campaign'));
+                $campaign->image()->delete();
+                $campaign->image()->create([
+                    'image' => $image,
+                ]);
+            }
+
+            $campaign->update([
+                'name' => $params['name'],
+                'description' => $params['description'],
+                'start_time' => $params['start_date'],
+                'end_time' => $params['end_date'],
+                'address' => $params['address'],
+                'lat' => $params['lattitude'],
+                'lng' => $params['longitude'],
+            ]);
+
+            $goals = $params['goal'];
+            $contributions = $params['contribution_type'];
+            $units = $params['unit'];
+            $categoryIds = $params['category_id'];
+
+            foreach ($goals as $key => $goal) {
+                foreach ($contributions as $k => $contribution)  {
+                    if ($key == $k && $contribution && $goal && $units[$k]) {
+                        $inputs[] = [
+                            'name' => $contribution,
+                            'goal' => (int) $goal,
+                            'unit' => $units[$key],
+                        ];
+
+                        if (!isset($categoryIds[$key])) {
+                            $campaign->categories()->create([
+                                'name' => $contribution,
+                                'goal' => (int) $goal,
+                                'unit' => $units[$key],
+                            ]);
+                        }
+                    }
+                }
+            }
+
+            foreach ($campaign->categories as $key => $category) {
+                $category->name = $inputs[$key]['name'];
+                $category->goal = $inputs[$key]['goal'];
+                $category->unit = $inputs[$key]['unit'];
+            }
+
+            DB::commit();
+
+            return $campaign;
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return false;
+        }
+    }
+
     public function createCampaign($params = [])
     {
         if (empty($params)) {
@@ -102,7 +176,6 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
 
         DB::beginTransaction();
         try {
-
             $image = $this->uploadImage($params['image'], config('path.campaign'));
 
             $campaign = $this->model->create([

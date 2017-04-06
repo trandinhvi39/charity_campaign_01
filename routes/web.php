@@ -57,6 +57,10 @@ Route::get('/callback/{provider}', 'Auth\SocialAuthController@callback');
 
 Route::group(['middleware' => 'auth'], function () {
 
+    Route::resource('campaign', 'CampaignController', [
+        'only' => ['edit', 'update']
+    ]);
+
     Route::resource('user', 'UserController');
 
     Route::get('campaigns/create', 'CampaignController@create');

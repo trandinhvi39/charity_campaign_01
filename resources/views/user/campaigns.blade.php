@@ -54,6 +54,7 @@
                                     </td>
                                     <td>
                                         <div data-campaign-id="{{ $campaign->id }}">
+                                            <a class="btn btn-default" href="{{ URL::action('CampaignController@edit', $campaign->id) }}"> Edit </a>
                                             @if (!$campaign->status)
                                                 {!! Form::submit(trans('campaign.active'), ['class' => 'btn active btn-default active-campaign']) !!}
                                             @else

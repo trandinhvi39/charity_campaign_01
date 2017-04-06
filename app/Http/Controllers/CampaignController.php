@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CampaignRequest;
+use App\Http\Requests\UpdateCampaignRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Repositories\Campaign\CampaignRepositoryInterface;
@@ -237,26 +238,47 @@ class CampaignController extends BaseController
         return response()->json($result);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function edit($id)
     {
-        //
+        $this->dataView['campaign'] = $this->campaignRepository->find($id);
+
+        if (!$this->dataView['campaign']
+            || $this->dataView['campaign']->owner->user_id != auth()->id()) {
+            return abort(404);
+        }
+
+        $validateMessage = trans('campaign.validate');
+        unset($validateMessage['image']);
+        $this->dataView['validateMessage'] = json_encode($validateMessage);
+
+        return view('campaign.edit', $this->dataView);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function update(UpdateCampaignRequest $request, $id)
     {
-        //
+        $inputs = $request->only([
+            'name',
+            'image',
+            'start_date',
+            'end_date',
+            'address',
+            'lattitude',
+            'longitude',
+            'description',
+            'contribution_type',
+            'goal',
+            'unit',
+            'category_id'
+        ]);
+
+        $campaign = $this->campaignRepository->updateCampaign($inputs, $request->id);
+
+        if (!$campaign) {
+            return redirect(action('CampaignController@edit', $request->id))
+                ->withMessage(trans('campaign.update_error'));
+        }
+
+        return redirect(action('UserController@listUserCampaign', ['id' => auth()->id()]))
+            ->with(['alert-success' => trans('campaign.update_success')]);
     }
 }

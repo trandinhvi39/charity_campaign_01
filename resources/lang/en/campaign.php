@@ -174,4 +174,8 @@ return [
     'suggest_campaign' => 'Suggested campaigns',
     'nearest' => 'Nearest',
     'hotest' => 'Hotest',
+    'edit' => 'Edit campaign',
+    'save' => 'Save',
+    'update_success' => 'Update campaign success',
+    'update_error' => 'Update campaign error',
 ];

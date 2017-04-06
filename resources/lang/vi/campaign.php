@@ -173,4 +173,8 @@ return [
     'suggest_campaign' => 'Những chiến dịch từ thiện được đề xuất',
     'nearest' => 'Gần nhất',
     'hotest' => 'Hot nhất',
+    'edit' => 'Chỉnh sửa chiến dịch từ thiện',
+    'save' => 'Lưu',
+    'update_success' => 'Cập nhật chiến dịch từ thiện thành công',
+    'update_error' => 'Cập nhật chiến dịch từ thiện lỗi',
 ];

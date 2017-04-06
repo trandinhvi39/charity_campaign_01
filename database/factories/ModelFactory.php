@@ -29,14 +29,16 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Models\Campaign::class, function (Faker\Generator $faker) {
     static $password;
 
+    $endTime = $faker->date('Y-m-d');
+
     return [
         'name' => $faker->sentence,
         'description' => $faker->paragraph,
         'address' => $faker->address,
         'lat' => $faker->latitude,
         'lng' => $faker->longitude,
-        'start_time' => $faker->dateTime,
-        'end_time' => $faker->dateTime,
+        'start_time' => $faker->date('Y-m-d', $endTime),
+        'end_time' => $endTime,
         'status' => $faker->boolean,
     ];
 });
