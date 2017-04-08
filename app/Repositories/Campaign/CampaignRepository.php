@@ -246,8 +246,7 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
             return false;
         }
 
-        return $this->model->where('status', config('constants.ACTIVATED'))
-            ->with(['image', 'owner.user', 'comments.user'])
+        return $this->model->with(['image', 'owner.user', 'comments.user'])
             ->with(['contributions.user', 'contributions' => function ($query) {
                 $query->where('status', config('constants.ACTIVATED'));
             }])
@@ -361,7 +360,9 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
                 'group_id' => $group->id,
             ])->first();
 
-            $member->delete();
+            if ($member) {
+                $member->delete();
+            }
 
             $userCampaign->status = config('constants.NOT_ACTIVE');
             $userCampaign->save();
@@ -393,10 +394,15 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
             $campaign->save();
 
             if ($campaign->status) {
-                // save action
                 $campaign->actions()->create([
                     'user_id' => auth()->id(),
                     'action_type' => config('constants.ACTION.ACTIVE_CAMPAIGN'),
+                    'time' => time(),
+                ]);
+            } else {
+                $campaign->actions()->create([
+                    'user_id' => auth()->id(),
+                    'action_type' => config('constants.ACTION.CLOSE_CAMPAIGN'),
                     'time' => time(),
                 ]);
             }

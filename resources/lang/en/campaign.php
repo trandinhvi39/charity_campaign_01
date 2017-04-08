@@ -178,4 +178,7 @@ return [
     'save' => 'Save',
     'update_success' => 'Update campaign success',
     'update_error' => 'Update campaign error',
+    'closed' => 'Closed',
+    'old_image' => 'Old image',
+    'action_close_campaign' => 'closed this campaign',
 ];

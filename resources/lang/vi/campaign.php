@@ -177,4 +177,7 @@ return [
     'save' => 'Lưu',
     'update_success' => 'Cập nhật chiến dịch từ thiện thành công',
     'update_error' => 'Cập nhật chiến dịch từ thiện lỗi',
+    'closed' => 'Đã đóng',
+    'old_image' => 'Ảnh cũ',
+    'action_close_campaign' => 'đã đóng chiến dịch từ thiện này',
 ];

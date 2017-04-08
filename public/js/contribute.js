@@ -30,7 +30,6 @@ Contribute.prototype = {
                         setTimeout(function () {
                             $('#close-modal').click();
                             $('.notify').html('');
-
                         }, 2500);
                     }
                 },

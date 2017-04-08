@@ -37,3 +37,7 @@
     float: right;
     margin-left: 3px;
 }
+
+.closed {
+    color: red;
+}

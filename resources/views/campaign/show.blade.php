@@ -78,7 +78,13 @@
             <div class="col-md-8 center-panel">
                 <div class="block">
                     <div class="block-title themed-background-dark">
-                        <h2 class="block-title-light campaign-title"><strong>{{{ $campaign->name }}}</strong></h2>
+                        <h2 class="block-title-light campaign-title">
+                        <strong>
+                        @if (!$campaign->status)
+                            <span class="closed"> [{{ trans('campaign.closed') }}] </span>
+                        @endif
+                        {{{ $campaign->name }}}
+                        </strong></h2>
                     </div>
                     <div class="block-content-full">
                         <div class="timeline">
@@ -469,7 +475,7 @@
             </div>
         </div>
     </div>
-    @if (auth()->check() && ($campaignChat->owner->user_id == auth()->id()
+    @if (auth()->check() && $campaignChat->status  && ($campaignChat->owner->user_id == auth()->id()
         || $campaignChat->checkMemberOfCampaignByUserId(auth()->id()))
     ))
         @include('layouts.chat')

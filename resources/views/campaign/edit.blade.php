@@ -50,7 +50,7 @@
                             {!! Form::open(['action' => ['CampaignController@update', $campaign->id], 'method' => 'PUT', 'id' => 'create-campaign', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
 
                             <div class="col-lg-10 col-lg-offset-1">
-                                <label for="image-upload" id="image-label">Old image</label>
+                                <label for="image-upload" id="image-label">{{ trans('campaign.old_image') }}</label>
                                 <div class="row push">
                                     <div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
                                         <a href="{{ $campaign->image->image }}" data-toggle="lightbox-image">
