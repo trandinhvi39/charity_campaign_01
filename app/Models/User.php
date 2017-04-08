@@ -54,7 +54,7 @@ class User extends Authenticatable
         'name' => 'required|max:255',
         'email' => 'required|email|max:255|unique:users',
         'password' => 'required|min:6|confirmed',
-        'phone_number' => 'required',
+        'phone_number' => 'required|numeric|phone',
         'password' => 'required|min:6|max:30|confirmed',
         'password_confirmation' => 'min:6'
     ];
@@ -71,7 +71,8 @@ class User extends Authenticatable
             'email' => 'required|email|unique:users,email,' . $id,
             'avatar' => ['mimes:jpg,jpeg,JPEG,png,gif', 'max:2024'],
             'password' => 'min:6|max:30|confirmed',
-            'password_confirmation' => 'min:6'
+            'password_confirmation' => 'min:6',
+            'phone_number' => 'required|numeric|phone',
         ];
     }
 

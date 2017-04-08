@@ -58,6 +58,18 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-md-4 control-label" for="val_email">{{ trans('user.phone_number') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        {{ Form::text('phone_number', $user->phone_number, ['class' => 'form-control ui-wizard-content']) }}
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-md-4 control-label" for="val_password">{{ trans('user.password') }}
                                     <span class="text-danger">*</span>
                                 </label>
