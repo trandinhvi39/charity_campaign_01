@@ -97,3 +97,4 @@ $factory->define(App\Models\Schedule::class, function (Faker\Generator $faker) {
         'end_time' => $faker->dateTime,
     ];
 });
+

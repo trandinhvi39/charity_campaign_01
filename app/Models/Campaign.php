@@ -26,6 +26,7 @@ class Campaign extends Model
         'start_time',
         'end_time',
         'status',
+        'tags',
     ];
 
     /**
@@ -131,5 +132,10 @@ class Campaign extends Model
     public function scopeFilter($query, QueryFilter $filters)
     {
         return $filters->apply($query);
+    }
+
+    public function getTags()
+    {
+        return explode(",", $this->tags);
     }
 }

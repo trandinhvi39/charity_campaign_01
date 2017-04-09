@@ -3,6 +3,8 @@
 @section('css')
     @parent
     {{ Html::style('bower_components/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css') }}
+    <!-- TAG INPUT: participant -->
+    {!! Html::style('bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') !!}
 @endsection
 
 @section('js')
@@ -15,6 +17,11 @@
     {{ Html::script('bower_components/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js') }}
     {{ Html::script('bower_components/jquery-validation/dist/jquery.validate.min.js') }}
     {{ Html::script('bower_components/jquery-validation/dist/additional-methods.js') }}
+    <!-- TAG INPUT: participant -->
+    {!! Html::script('bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') !!}
+    {!! Html::script('bower_components/typeahead.js/dist/bloodhound.js') !!}
+    {!! Html::script('bower_components/typeahead.js/dist/typeahead.bundle.js') !!}
+    {!! Html::script('bower_components/typeahead.js/dist/typeahead.jquery.js') !!}
     <script type="text/javascript">
         $(document).ready(function () {
 
@@ -29,6 +36,7 @@
 
 @section('content')
     <div id="page-content">
+        <div class="hide-tags" data-tags="{{ $tags }}">
         <div class="row">
             <div class="col-md-12 center-panel">
                 <div class="block">
@@ -48,6 +56,18 @@
 
                         <div class="campaign">
                             {!! Form::open(['action' => 'CampaignController@store', 'method' => 'POST', 'id' => 'create-campaign', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
+                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                                <label for="name" class="col-md-3 control-label">{{ trans('campaign.tags') }}</label>
+
+                                <div class="col-md-8" >
+                                    <input type="textarea" name="tags" value="Charity" id="category" data-role="tagsinput" class="form-control">
+                                    @if ($errors->has('name'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('name') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
 
                             <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
                                 <div class="col-lg-10 col-lg-offset-1">

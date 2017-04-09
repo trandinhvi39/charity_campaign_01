@@ -17,6 +17,7 @@ use App\Repositories\Group\GroupRepositoryInterface;
 use Validator;
 use App\Models\User;
 use App\Services\Purifier;
+use App\Models\Tag;
 
 class CampaignController extends BaseController
 {
@@ -72,6 +73,8 @@ class CampaignController extends BaseController
     public function create()
     {
         $this->dataJson['validateMessage'] = json_encode(trans('campaign.validate'));
+        $tags = json_encode(Tag::get(['name']));
+        $this->dataJson['tags'] = $tags;
 
         return view('campaign.create', $this->dataJson);
     }
@@ -94,7 +97,19 @@ class CampaignController extends BaseController
             'contribution_type',
             'goal',
             'unit',
+            'tags',
         ]);
+
+        $tags = Tag::get(['name'])->pluck('name');
+        $listTags = [];
+
+        foreach (explode(",", $inputs['tags']) as $tag){
+            if (!$tags->contains($tag)) {
+                Tag::create([
+                    'name' => $tag,
+                ]);
+            }
+        }
 
         //$inputs['description'] = Purifier::clean($inputs['description']);
         $campaign = $this->campaignRepository->createCampaign($inputs);

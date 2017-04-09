@@ -186,4 +186,5 @@ return [
     'newest' => 'Newest',
     'oldest' => 'Oldest',
     'open' => 'Open',
+    'tags' => 'Tags for campaign',
 ];

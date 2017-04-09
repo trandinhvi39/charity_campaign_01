@@ -78,6 +78,9 @@
                             <span class="closed"> [{{ trans('campaign.closed') }}] </span>
                         @endif
                         {{{ $campaign->name }}}
+                        @foreach ($campaign->getTags() as $tag)
+                            <span class="label label-warning">{{ $tag }}</span>
+                        @endforeach
                         </strong></h2>
                     </div>
                     <div class="block-content-full">

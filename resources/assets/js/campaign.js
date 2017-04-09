@@ -44,7 +44,7 @@ Campaign.prototype = {
             filebrowserUploadUrl: _self.url
         });
     },
-    
+
     category: function () {
         var _self = this;
         var message = JSON.parse(_self.validateMessage);

@@ -14,6 +14,7 @@ use App\Repositories\Campaign\CampaignRepositoryInterface;
 use DB;
 use Illuminate\Container\Container;
 use \Carbon\Carbon;
+use App\Services\GoogleMap;
 
 class CampaignRepository extends BaseRepository implements CampaignRepositoryInterface
 {
@@ -232,15 +233,26 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
         try {
             $image = $this->uploadImage($params['image'], config('path.campaign'));
 
+            $googleMap = new GoogleMap();
+            $location = $googleMap->getAddress(['address' => $params['address']]);
+
+            if (!$location) {
+                $location = [
+                    'latitude' => '',
+                    'longitude' => '',
+                ];
+            }
+
             $campaign = $this->model->create([
                 'name' => $params['name'],
                 'description' => $params['description'],
                 'start_time' => $params['start_date'],
                 'end_time' => $params['end_date'],
                 'address' => $params['address'],
-                'lat' => $params['lattitude'],
-                'lng' => $params['longitude'],
+                'lat' => $location['latitude'],
+                'lng' => $location['longitude'],
                 'status' => config('constants.NOT_ACTIVE'),
+                'tags' => $params['tags'],
             ]);
 
             $goals = $params['goal'];

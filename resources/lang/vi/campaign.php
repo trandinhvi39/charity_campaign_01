@@ -185,4 +185,5 @@ return [
     'newest' => 'Mới nhất',
     'oldest' => 'Cũ nhất',
     'open' => 'Đang hoạt động',
+    'tags' => 'Tags cho chiến dịch',
 ];

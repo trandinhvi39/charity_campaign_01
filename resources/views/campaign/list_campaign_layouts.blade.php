@@ -2,7 +2,11 @@
     <div class="block">
         <div class="block-title themed-background-dark">
             <h2 class="block-title-light campaign-title">
-                <a href="{{ action('CampaignController@show', ['id' => $campaign->id]) }}">{{ $campaign->name }}</a>
+                <a href="{{ action('CampaignController@show', ['id' => $campaign->id]) }}">{{ $campaign->name }}
+                    @foreach ($campaign->getTags() as $tag)
+                        <span class="label label-warning">{{ $tag }}</span>
+                    @endforeach
+                </a>
             </h2>
         </div>
         <div class="block-content-full">

@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RelationshipsTableSeeder::class);
         $this->call(EventsTableSeeder::class);
         $this->call(SchedulesTableSeeder::class);
+        $this->call(TagsTableSeeder::class);
         Model::reguard();
     }
 }
