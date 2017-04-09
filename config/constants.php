@@ -21,6 +21,7 @@ return [
         'ACTIVE_CAMPAIGN' => 1,
         'CLOSE_CAMPAIGN' => 2,
         'CONTRIBUTE' => 3,
+        'COMMENT_CAMPAIGN' => 4,
     ],
     'PAGINATE_CAMPAIGN' => 10,
     'USER_LIMIT' => 10,

@@ -281,4 +281,26 @@ class CampaignController extends BaseController
         return redirect(action('UserController@listUserCampaign', ['id' => auth()->id()]))
             ->with(['alert-success' => trans('campaign.update_success')]);
     }
+
+    public function filterCampaign(Request $request)
+    {
+         if ($request->ajax()){
+            $inputs = $request->only([
+                'filter_follow',
+            ]);
+
+            $campaigns = $this->campaignRepository->filterCampaign($inputs['filter_follow']);
+
+            return response()->json([
+                'success' => true,
+                'html' => view('campaign.list_campaign_layouts', [
+                    'campaigns' => $campaigns
+                ])->render(),
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+        ]);
+    }
 }

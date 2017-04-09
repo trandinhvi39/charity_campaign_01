@@ -181,4 +181,9 @@ return [
     'closed' => 'Closed',
     'old_image' => 'Old image',
     'action_close_campaign' => 'closed this campaign',
+    'action_comment_campaign' => 'comment this campaign',
+    'filter_by' => 'Filter by',
+    'newest' => 'Newest',
+    'oldest' => 'Oldest',
+    'open' => 'Open',
 ];

@@ -7,6 +7,7 @@ use App\Repositories\BaseRepository;
 use App\Repositories\Comment\CommentRepositoryInterface;
 use DB;
 use Illuminate\Container\Container;
+use App\Models\Campaign;
 
 class CommentRepository extends BaseRepository implements CommentRepositoryInterface
 {
@@ -29,13 +30,36 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
             return false;
         }
 
-        return $this->model->create([
-            'name' => isset($params['name']) ? $params['name'] : null,
-            'email' => isset($params['email']) ? $params['email'] : null,
-            'user_id' => auth()->id(),
-            'campaign_id' => $params['campaign_id'],
-            'text' => $params['text'],
-        ]);
+        DB::beginTransaction();
+        try {
+            $currentCampaign = Campaign::find($params['campaign_id']);
+
+            if (!$currentCampaign) {
+                return false;
+            }
+
+            $currentCampaign->actions()->create([
+                'user_id' => auth()->id(),
+                'action_type' => config('constants.ACTION.COMMENT_CAMPAIGN'),
+                'time' => time(),
+            ]);
+
+            $comment = $this->model->create([
+                'name' => isset($params['name']) ? $params['name'] : null,
+                'email' => isset($params['email']) ? $params['email'] : null,
+                'user_id' => auth()->id(),
+                'campaign_id' => $params['campaign_id'],
+                'text' => $params['text'],
+            ]);
+
+            DB::commit();
+
+            return $comment;
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return false;
+        }
     }
 
     public function getDetail($id)

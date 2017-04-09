@@ -172,7 +172,7 @@ return [
     ],
     'suggest_campaign' => 'Những chiến dịch từ thiện được đề xuất',
     'nearest' => 'Gần nhất',
-    'hotest' => 'Hot nhất',
+    'hotest' => 'Nổi bật nhất',
     'edit' => 'Chỉnh sửa chiến dịch từ thiện',
     'save' => 'Lưu',
     'update_success' => 'Cập nhật chiến dịch từ thiện thành công',
@@ -180,4 +180,9 @@ return [
     'closed' => 'Đã đóng',
     'old_image' => 'Ảnh cũ',
     'action_close_campaign' => 'đã đóng chiến dịch từ thiện này',
+    'action_comment_campaign' => 'bình luận về chiến dịch từ thiện này',
+    'filter_by' => 'Lọc theo',
+    'newest' => 'Mới nhất',
+    'oldest' => 'Cũ nhất',
+    'open' => 'Đang hoạt động',
 ];

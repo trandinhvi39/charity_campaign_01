@@ -30,6 +30,61 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
         return Campaign::class;
     }
 
+    public function filterCampaign($type)
+    {
+        switch ($type) {
+                case trans('campaign.newest'):
+                    return $this->model->with('image')
+                        ->with(['owner.user', 'owner' => function ($query) {
+                            $query->where('is_owner', config('constants.OWNER'));
+                        }])
+                        ->where('status', config('constants.ACTIVATED'))
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(config('constants.PAGINATE'));
+                case trans('campaign.oldest'):
+                    return $this->model->with('image')
+                            ->with(['owner.user', 'owner' => function ($query) {
+                                $query->where('is_owner', config('constants.OWNER'));
+                            }])
+                            ->where('status', config('constants.ACTIVATED'))
+                            ->orderBy('created_at')
+                            ->paginate(config('constants.PAGINATE'));
+                case trans('campaign.hotest'):
+                    $campaigns = $this->model->get();
+                    $hotCampaigns = [];
+
+                    foreach ($campaigns as $campaign) {
+                        $hotCampaigns[] = [
+                            'countMember' => count($this->getMembers($campaign->id)),
+                            'campaign' => $campaign,
+                        ];
+                    }
+
+                    return paginateCollection(
+                        collect($hotCampaigns)->sortByDesc('countMember')->pluck('campaign'),
+                        config('constants.PAGINATE')
+                        );
+                case trans('campaign.open'):
+                    return $this->model->with('image')
+                        ->with(['owner.user', 'owner' => function ($query) {
+                            $query->where('is_owner', config('constants.OWNER'));
+                        }])
+                        ->where('status', config('constants.ACTIVATED'))
+                        ->orderBy('id', 'desc')
+                        ->paginate(config('constants.PAGINATE'));
+                case trans('campaign.closed'):
+                    return $this->model->with('image')
+                        ->with(['owner.user', 'owner' => function ($query) {
+                            $query->where('is_owner', config('constants.OWNER'));
+                        }])
+                        ->where('status', config('constants.NOT_ACTIVE'))
+                        ->orderBy('id', 'desc')
+                        ->paginate(config('constants.PAGINATE'));
+                default:
+                    return null;
+            }
+    }
+
     public function getSuggestNearestCampaigns($currentCampaign)
     {
         $campaigns = $this->model
@@ -89,7 +144,6 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
             ->with(['owner.user', 'owner' => function ($query) {
                 $query->where('is_owner', config('constants.OWNER'));
             }])
-            ->where('status', config('constants.ACTIVATED'))
             ->orderBy('id', 'desc');
     }
 

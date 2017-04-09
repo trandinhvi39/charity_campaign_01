@@ -62,12 +62,6 @@
 @stop
 
 @section('content')
-    <meta property="fb:app_id" content="708640145978561"/>
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="{{ URL::action('CampaignController@show', $campaign->id) }}" />
-    <meta property="og:title" content="{{ $campaign->name }}" />
-    <meta property="og:description" content="{{ $campaign->description }}" />
-    <meta property="og:image" content="{{ $campaign->image->image }}" />
     <div id="page-content">
         <div class="hide-comment" data-campaign-id="{{ $campaign->id }}"
             data-host="{{ config('app.key_program.socket_host') }}"
@@ -214,15 +208,6 @@
                                         <span>{{ Counter::showAndCount('campaign', $campaign->id) }}</span>
                                     </a>
                                 </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="form-group col-lg-12 div-like-share">
-                            <div class="fb-like"
-                                data-href="{{ URL::action('CampaignController@show', $campaign->id) }}"
-                                data-layout="standard" data-action="like"
-                                data-size="small" data-show-faces="true"
-                                data-share="true">
                             </div>
                         </div>
 

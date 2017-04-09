@@ -15,4 +15,5 @@ return [
     ],
     'paginations' => 'đang hiển thị :start đến :finish của :numberOfRecords bản ghi|đang hiển thị :start đến :finish của :numberOfRecords bản ghi',
     'confirm_delete' => 'Bạn có chắc chắn không?',
+    'notifications' => 'THÔNG BÁO',
 ];

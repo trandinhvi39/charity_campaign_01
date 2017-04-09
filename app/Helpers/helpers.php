@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Pagination\LengthAwarePaginator;
+
 if (!function_exists('distanceGeoPoints')) {
     function distanceGeoPoints ($lat1, $lng1, $lat2, $lng2)
     {
@@ -15,5 +17,29 @@ if (!function_exists('distanceGeoPoints')) {
         $meterConversion = 1609;
         $geopointDistance = $dist * $meterConversion;
         return $geopointDistance;
+    }
+}
+
+if (!function_exists('paginateCollection')) {
+    function paginateCollection($collection, $perPage, $pageName = 'page', $fragment = null)
+    {
+        $currentPage = LengthAwarePaginator::resolveCurrentPage($pageName);
+        $currentPageItems = $collection->slice(($currentPage - 1) * $perPage, $perPage);
+        parse_str(request()->getQueryString(), $query);
+        unset($query[$pageName]);
+        $paginator = new LengthAwarePaginator(
+            $currentPageItems,
+            $collection->count(),
+            $perPage,
+            $currentPage,
+            [
+                'pageName' => $pageName,
+                'path' => LengthAwarePaginator::resolveCurrentPath(),
+                'query' => $query,
+                'fragment' => $fragment
+            ]
+        );
+
+        return $paginator;
     }
 }

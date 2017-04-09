@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
     <title>{{ trans('message.project') }}</title>
 
@@ -20,6 +22,8 @@
         {{ Html::style('css/chat.css') }}
         {!! Html::style('bower_components/ms-Dropdown/css/msdropdown/dd.css') !!}
         {!! Html::style('bower_components/ms-Dropdown/css/msdropdown/flags.css') !!}
+
+    <link href="" rel="stylesheet">
     @show
 
 </head>
@@ -57,7 +61,7 @@
         <!-- DROPDOWN: multiple language -->
         {!! Html::script('bower_components/ms-Dropdown/js/msdropdown/jquery.dd.min.js') !!}
         {{ Html::script('js/multiple_language.js') }}
-        {{ Html::script('js/share_social.js') }}
+        {{ Html::script('js/filter_campaign.js') }}
         <script type="text/javascript">
             $.ajaxSetup({
                 headers: {
