@@ -59,8 +59,8 @@
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label for="name" class="col-md-3 control-label">{{ trans('campaign.tags') }}</label>
 
-                                <div class="col-md-8" >
-                                    <input type="textarea" name="tags" value="Charity" id="category" data-role="tagsinput" class="form-control">
+                                <div class="col-md-8 typeahead">
+                                    <input type="text" name="tags" id="category" data-role="tagsinput" class="form-control">
                                     @if ($errors->has('name'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('name') }}</strong>

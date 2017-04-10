@@ -20,6 +20,7 @@
         {{ Html::style('css/app.css') }}
         {{ Html::style('https://fonts.googleapis.com/icon?family=Material+Icons') }}
         {{ Html::style('css/chat.css') }}
+        {{ Html::style('css/custome_typeahead.css') }}
         {!! Html::style('bower_components/ms-Dropdown/css/msdropdown/dd.css') !!}
         {!! Html::style('bower_components/ms-Dropdown/css/msdropdown/flags.css') !!}
 
