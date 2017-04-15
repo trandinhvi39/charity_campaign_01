@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Contribution;
 use App\Repositories\Contribution\ContributionRepositoryInterface;
 use App\Http\Requests\ContributionRequest;
+use App\Models\Campaign;
 
 class ContributionController extends Controller
 {
@@ -88,7 +89,6 @@ class ContributionController extends Controller
     {
         if ($request->ajax()) {
             $contributionId = $request->get('contribution_id');
-
             $result = $this->contributionRepository->confirmContribution($contributionId);
 
             return response()->json($result);

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CampaignRequest;
-use App\Http\Requests\UpdateCampaignRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Repositories\Campaign\CampaignRepositoryInterface;
@@ -18,6 +17,7 @@ use Validator;
 use App\Models\User;
 use App\Services\Purifier;
 use App\Models\Tag;
+use App\Models\Notification;
 
 class CampaignController extends BaseController
 {
@@ -61,6 +61,7 @@ class CampaignController extends BaseController
     {
         $this->dataView['campaigns'] = $this->campaignRepository->getAll()->paginate(config('constants.PAGINATE'));
         $this->dataView['users'] = $this->userRepository->getUserByRating();
+        $this->dataView['popularTags'] = $this->campaignRepository->getPopularTags();
 
         return view('campaign.index', $this->dataView);
     }
@@ -149,6 +150,7 @@ class CampaignController extends BaseController
         //get list suggested campaigns
         $this->dataView['nearestCampaigns'] = $this->campaignRepository->getSuggestNearestCampaigns($this->dataView['campaign']);
         $this->dataView['hotestCampaigns'] = $this->campaignRepository->getSuggestHotestCampaigns($this->dataView['campaign']);
+        $this->dataView['relatedCampaigns'] = $this->campaignRepository->getRelatedCampaign($this->dataView['campaign']);
 
         // get list members of campaign
         $this->dataView['campaignChat'] = $this->dataView['campaign'];
@@ -262,39 +264,14 @@ class CampaignController extends BaseController
             return abort(404);
         }
 
+        $tags = json_encode(Tag::get(['name']));
+        $this->dataView['tags'] = $tags;
+
         $validateMessage = trans('campaign.validate');
         unset($validateMessage['image']);
         $this->dataView['validateMessage'] = json_encode($validateMessage);
 
         return view('campaign.edit', $this->dataView);
-    }
-
-    public function update(UpdateCampaignRequest $request, $id)
-    {
-        $inputs = $request->only([
-            'name',
-            'image',
-            'start_date',
-            'end_date',
-            'address',
-            'lattitude',
-            'longitude',
-            'description',
-            'contribution_type',
-            'goal',
-            'unit',
-            'category_id'
-        ]);
-
-        $campaign = $this->campaignRepository->updateCampaign($inputs, $request->id);
-
-        if (!$campaign) {
-            return redirect(action('CampaignController@edit', $request->id))
-                ->withMessage(trans('campaign.update_error'));
-        }
-
-        return redirect(action('UserController@listUserCampaign', ['id' => auth()->id()]))
-            ->with(['alert-success' => trans('campaign.update_success')]);
     }
 
     public function filterCampaign(Request $request)
@@ -317,5 +294,28 @@ class CampaignController extends BaseController
         return response()->json([
             'success' => false,
         ]);
+    }
+
+    public function campaignWithTags($tags)
+    {
+        $this->dataView['campaigns'] = $this->campaignRepository->getCampaignByTagsName($tags)->paginate(config('constants.PAGINATE'));
+
+        if (!$this->dataView['campaigns']->count()) {
+            return abort(404);
+        }
+
+        $this->dataView['users'] = $this->userRepository->getUserByRating();
+        $this->dataView['tags'] = $tags;
+        $this->dataView['countTags'] = $this->campaignRepository->countCampaignsByTag($tags);
+        $this->dataView['popularTags'] = $this->campaignRepository->getPopularTags();
+
+        return view('campaign.campaign_with_tags', $this->dataView);
+    }
+
+    public function allTags()
+    {
+        $this->dataView['tags'] = $this->campaignRepository->getAllTags();
+
+        return view('campaign.tags', $this->dataView);
     }
 }

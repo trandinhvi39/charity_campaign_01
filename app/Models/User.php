@@ -150,4 +150,9 @@ class User extends Authenticatable
     {
         return $filters->apply($query);
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }

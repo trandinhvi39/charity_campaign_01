@@ -5,7 +5,6 @@
     {{ Html::style('bower_components/bootstrap-star-rating/css/star-rating.css') }}
     {{ Html::style('bower_components/bootstrap-star-rating/css/theme-krajee-fa.css') }}
     {{ Html::style('https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.5/css/bootstrap-dialog.min.css') }}
-    {{ Html::style('css/admin.css') }}
 @stop
 
 @section('js')
@@ -68,22 +67,130 @@
             data-port="{{ config('app.key_program.socket_port') }}">
         </div>
         <div class="hide" data-token="{{ csrf_token() }}"></div>
+        <div class="message-note" data-message-note="{{ trans('campaign.message.note') }}"></div>
         <div class="row">
             <div class="col-md-8 center-panel">
                 <div class="block">
                     <div class="block-title themed-background-dark">
-                        <h2 class="block-title-light campaign-title">
-                        <strong>
-                        @if (!$campaign->status)
-                            <span class="closed"> [{{ trans('campaign.closed') }}] </span>
-                        @endif
-                        {{{ $campaign->name }}}
-                        @foreach ($campaign->getTags() as $tag)
-                            <span class="label label-warning">{{ $tag }}</span>
-                        @endforeach
-                        </strong></h2>
+                        <h2 class="block-title-light campaign-title header-campaign-name">
+                            <strong>
+                            @if (!$campaign->status)
+                                <span class="closed"> [{{ trans('campaign.closed') }}] </span>
+                            @endif
+                            {{{ $campaign->name }}}
+                            <br>
+                            @foreach ($campaign->getTags() as $tag)
+                                <a href="{{ URL::action('CampaignController@campaignWithTags', $tag) }}" class="label label-default">{{ $tag }}</a>
+                            @endforeach
+                            </strong>
+                            <br>
+                            @if (!$campaign->note)
+                                @if (auth()->check() && $campaign->status  && ($campaign->owner->user_id == auth()->id()))
+                                    <a data-toggle="modal" data-target="#createNote" class="label label-primary btn-note"><i class="glyphicon glyphicon-plus"></i> {{ trans('campaign.btn_create_note') }}</a>
+                                @endif
+                            @else
+                                @if (auth()->check() && $campaign->checkMemberOfCampaignByUserId(auth()->id()))
+                                    <a data-toggle="modal" data-target="#editNote" class="label label-primary btn-note"><i class="glyphicon glyphicon-pencil"></i>  {{ trans('campaign.btn_edit_note') }}</a>
+                                @endif
+                            @endif
+                        </h2>
                     </div>
+
+                    <!-- Create Note Modal -->
+                    <div class="modal fade" id="createNote" role="dialog">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">{{ trans('campaign.create_note') }}</h4>
+                                </div>
+                                {!! Form::open(['action' => 'NoteController@store', 'method' => 'POST', 'class' => 'form-horizontal', 'id' => 'create-note-campaign']) !!}
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <p class="closed create-message-note"></p>
+                                            </div>
+                                            <div class="col-md-12">
+                                             {!! Form::textarea('content', old('content'), ['class' => 'form-control  create-content-note', 'placeholder' => trans('campaign.placeholder.note')]) !!}
+                                                @if ($errors->has('content'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('content') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            {!! Form::hidden('campaign_id', $campaign->id) !!}
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-raised btn-primary create-save-note">
+                                            {{ trans('campaign.save') }}
+                                        </button>
+                                    </div>
+                                {!! Form::close() !!}
+                            </div>
+                        </div>
+                    </div>
+
+                    @if ($campaign->note)
+                        <!-- Edit Note Modal -->
+                        <div class="modal fade" id="editNote" role="dialog">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">{{ trans('campaign.edit_note') }}</h4>
+                                        @if ($campaign->note->editUser)
+                                            <i>{{ trans('campaign.latest_update') }}: {{ $campaign->note->updated_at->diffForHumans() }}
+                                            <br>
+                                            {{ trans('campaign.by') }} {{ $campaign->note->editUser->name }}</i>
+                                        @endif
+                                    </div>
+                                    {!! Form::open(['action' => ['NoteController@update', $campaign->note->id], 'method' => 'PUT', 'class' => 'form-horizontal', 'id' => 'edit-note-campaign']) !!}
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <p class="closed edit-message-note"></p>
+                                                </div>
+                                                <div class="col-md-12">
+                                                 {!! Form::textarea('content', $campaign->note->content, ['class' => 'form-control edit-content-note', 'placeholder' => trans('campaign.placeholder.note')]) !!}
+                                                    @if ($errors->has('content'))
+                                                        <span class="help-block">
+                                                            <strong>{{ $errors->first('content') }}</strong>
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                                {!! Form::hidden('campaign_id', $campaign->id) !!}
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-raised btn-primary edit-save-note">
+                                                {{ trans('campaign.save') }}
+                                            </button>
+                                        </div>
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="block-content-full">
+                        @if (auth()->check() && $campaignChat->status  && ($campaignChat->owner->user_id == auth()->id()
+                            || $campaignChat->checkMemberOfCampaignByUserId(auth()->id())))
+                            @if ($campaign->note)
+                                <div class="timeline show-note" data-toggle="tooltip" data-placement="bottom" title="{{ $campaign->note->content }}">
+                                    <p><b class="note">{{ trans('campaign.note') }}: </b>{{ $campaign->note->content }}
+                                    <br>
+                                    @if ($campaign->note->editUser)
+                                        <i>{{ trans('campaign.latest_update') }}: {{ $campaign->note->updated_at->diffForHumans() }}
+                                        {{ trans('campaign.by') }} {{ $campaign->note->editUser->name }}</i>
+                                    @else
+                                        <i>{{ trans('campaign.created') }}: {{ $campaign->note->created_at->diffForHumans() }}
+                                        {{ trans('campaign.by') }} {{ $campaign->note->creatorUser->name }}</i>
+                                    @endif
+                                    </p>
+                                </div>
+                            @endif
+                        @endif
                         <div class="timeline">
                             <ul class="timeline-list">
                                 <li class="active">
@@ -230,29 +337,6 @@
             @include('layouts.user_rating')
 
             <div class="col-md-4 right-panel">
-                <!-- @if ($campaign->events->count())
-                    <div class="block">
-                        <div class="block-title themed-background-dark">
-                            <h4 class="block-title-light campaign-title">
-                                <strong>{{ trans('campaign.event') }}</strong>
-                            </h4>
-                        </div>
-                        <div class="widget-extra">
-                            <div class="timeline">
-                                <ul class="">
-                                    @foreach ($campaign->events as $event)
-                                        <li class="media event active fix-float font-size-progress-bar">
-                                            <div class="pull-left">
-                                                <span class="label label-default">{{ $loop->index + 1 }}</span> <a href="{{ URL::action('EventController@show', $event->id) }}">{{ $event->title }}</a>
-                                            </div>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                @endif -->
-
                 @if ($results)
                     <div class="block">
                         <div class="block-title themed-background-dark">
@@ -302,16 +386,16 @@
                     </div>
                 @endif
 
-                <div class="block">
-                    <div class="block-title themed-background-dark">
-                        <h4 class="block-title-light campaign-title">
-                            <strong>{{ trans('campaign.action') }}</strong>
-                        </h4>
-                    </div>
-                    <div class="widget-extra">
-                        <div class="timeline">
-                            <div class="request-join">
-                                @if ($campaign->status)
+                @if ($campaign->status && $campaignChat->owner->user_id != auth()->id())
+                    <div class="block">
+                        <div class="block-title themed-background-dark">
+                            <h4 class="block-title-light campaign-title">
+                                <strong>{{ trans('campaign.action') }}</strong>
+                            </h4>
+                        </div>
+                        <div class="widget-extra">
+                            <div class="timeline">
+                                <div class="request-join">
                                     @if (auth()->check())
                                         {!! Form::open(['method' => 'POST', 'id' => 'formRequest']) !!}
                                         {!! Form::hidden('campaign_id', $campaign->id) !!}
@@ -327,11 +411,11 @@
                                         <a href="{{ action('Auth\UserLoginController@getLogin') }}"
                                            class="btn btn-raised btn-success join">{{ trans('campaign.request_join') }}</a>
                                     @endif
-                                @endif
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
 
                 <div class="block contributor">
                     <div class="widget">
@@ -421,19 +505,22 @@
                     </div>
                     <div>
                         <ul class="nav nav-tabs border-tab">
-                            <li class="active"><a href="#suggest-nearest" data-toggle="tab">{{ trans('campaign.nearest') }}</a></li>
+                            <li class="active"><a href="#suggest-related" data-toggle="tab">{{ trans('campaign.related') }}</a></li>
+                            <li><a href="#suggest-nearest" data-toggle="tab">{{ trans('campaign.nearest') }}</a></li>
                             <li><a href="#suggest-hotest" data-toggle="tab">{{ trans('campaign.hotest') }}</a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
                         <div class="tab-content">
-                            <div class="tab-pane fade in active" id="suggest-nearest">
-                                @if ($nearestCampaigns)
-                                   @foreach ($nearestCampaigns as $campaign)
+                            <div class="tab-pane fade in active" id="suggest-related">
+                                @if ($relatedCampaigns)
+                                   @foreach ($relatedCampaigns as $campaign)
                                         <center>
-                                            <a href="{{ $campaign->image->image }}" data-toggle="lightbox-image">
-                                            <img class="img-suggest-campaign" src="{{ $campaign->image->image }}" alt="image">
-                                            </a>
+                                            @if ($campaign->image)
+                                                <a href="{{ $campaign->image->image }}" data-toggle="lightbox-image">
+                                                <img class="img-suggest-campaign" src="{{ $campaign->image->image }}" alt="image">
+                                                </a>
+                                            @endif
                                         </center>
                                         <h3><a href="{{ URL::action('CampaignController@show', $campaign->id) }}">{{ $campaign->name }}</a></h3>
                                         <i>{{ $campaign->address }}</i>
@@ -446,9 +533,28 @@
                                 @if ($hotestCampaigns)
                                    @foreach ($hotestCampaigns as $campaign)
                                         <center>
-                                            <a href="{{ $campaign->image->image }}" data-toggle="lightbox-image">
-                                            <img class="img-suggest-campaign" src="{{ $campaign->image->image }}" alt="image">
-                                            </a>
+                                            @if ($campaign->image)
+                                                <a href="{{ $campaign->image->image }}" data-toggle="lightbox-image">
+                                                <img class="img-suggest-campaign" src="{{ $campaign->image->image }}" alt="image">
+                                                </a>
+                                            @endif
+                                        </center>
+                                        <h3><a href="{{ URL::action('CampaignController@show', $campaign->id) }}">{{ $campaign->name }}</a></h3>
+                                        <i>{{ $campaign->address }}</i>
+                                        <hr>
+                                    @endforeach
+                                @endif
+                            </div>
+
+                            <div class="tab-pane fade" id="suggest-nearest">
+                                @if ($nearestCampaigns)
+                                   @foreach ($nearestCampaigns as $campaign)
+                                        <center>
+                                            @if ($campaign->image)
+                                                <a href="{{ $campaign->image->image }}" data-toggle="lightbox-image">
+                                                <img class="img-suggest-campaign" src="{{ $campaign->image->image }}" alt="image">
+                                                </a>
+                                            @endif
                                         </center>
                                         <h3><a href="{{ URL::action('CampaignController@show', $campaign->id) }}">{{ $campaign->name }}</a></h3>
                                         <i>{{ $campaign->address }}</i>

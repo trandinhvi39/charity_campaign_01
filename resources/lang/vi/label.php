@@ -9,7 +9,7 @@ return [
     'main_menu' => 'Menu',
     'home' => 'Trang chủ',
     'profile' => 'Trang cá nhân',
-    'logout' => 'DDăng xuất',
+    'logout' => 'đăng xuất',
     'footer' => [
         'copyright' => 'Chiến dịch từ thiện',
     ],

@@ -2,11 +2,17 @@
     <div class="block">
         <div class="block-title themed-background-dark">
             <h2 class="block-title-light campaign-title">
-                <a href="{{ action('CampaignController@show', ['id' => $campaign->id]) }}">{{ $campaign->name }}
-                </a>
-                @foreach ($campaign->getTags() as $tag)
-                    <span class="label label-warning">{{ $tag }}</span>
-                @endforeach
+                <strong>
+                    @if (!$campaign->status)
+                        <span class="closed"> [{{ trans('campaign.closed') }}] </span>
+                    @endif
+                    <a href="{{ action('CampaignController@show', ['id' => $campaign->id]) }}">{{ $campaign->name }}
+                    </a>
+                    <br>
+                    @foreach ($campaign->getTags() as $tag)
+                        <a href="{{ URL::action('CampaignController@campaignWithTags', $tag) }}" class="label label-default">{{ $tag }}</a>
+                    @endforeach
+                </strong>
             </h2>
         </div>
         <div class="block-content-full">

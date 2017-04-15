@@ -10,7 +10,6 @@
 @section('js')
     @parent
     {{ Html::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAvCSKMKzElwzRaHpcURMmS6J4z4qGP0ZM&libraries=places') }}
-    {{ Html::script('bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js') }}
     {{ Html::script('bower_components/ckeditor/ckeditor.js') }}
     {{ Html::script('http://opoloo.github.io/jquery_upload_preview/assets/js/jquery.uploadPreview.min.js') }}
     {{ Html::script('js/campaign.js') }}
@@ -56,14 +55,14 @@
 
                         <div class="campaign">
                             {!! Form::open(['action' => 'CampaignController@store', 'method' => 'POST', 'id' => 'create-campaign', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
-                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                            <div class="form-group{{ $errors->has('tags') ? ' has-error' : '' }}">
                                 <label for="name" class="col-md-3 control-label">{{ trans('campaign.tags') }}</label>
 
                                 <div class="col-md-8 typeahead">
                                     <input type="text" name="tags" id="category" data-role="tagsinput" class="form-control">
-                                    @if ($errors->has('name'))
+                                    @if ($errors->has('tags'))
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('name') }}</strong>
+                                            <strong>{{ $errors->first('tags') }}</strong>
                                         </span>
                                     @endif
                                 </div>

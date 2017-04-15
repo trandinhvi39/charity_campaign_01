@@ -12,6 +12,7 @@ use App\Repositories\Contribution\ContributionRepositoryInterface;
 use App\Repositories\Rating\RatingRepositoryInterface;
 use App\Repositories\Follow\FollowRepositoryInterface;
 use App\Repositories\Action\ActionRepositoryInterface;
+use App\Models\Notification;
 
 class UserController extends BaseController
 {
@@ -180,5 +181,27 @@ class UserController extends BaseController
         $this->dataView['campaigns'] = $this->campaignRepository->listCampaignOfUser($id)->get();
 
         return view('user.campaign_detail', $this->dataView);
+    }
+
+    public function manageCampaignAndDeleteNotification($id, $campaignId, $notificationId)
+    {
+        try {
+            $this->dataView['user'] = $this->user->findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
+
+        $this->dataView['campaign'] = $this->campaignRepository->getDetail($campaignId);
+
+        if (!$this->dataView['campaign']) {
+            return abort(404);
+        }
+
+        Notification::destroy($notificationId);
+
+        return redirect()->action('UserController@manageCampaign', [
+            'id' => $id,
+            'campaignId' => $campaignId,
+        ]);
     }
 }

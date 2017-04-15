@@ -80,9 +80,6 @@ Campaign.prototype = {
 
         $('#create-campaign').validate({
             rules: {
-                image: {
-                    required: true
-                },
                 name: {
                     required: true,
                     minlength: 10
@@ -113,9 +110,6 @@ Campaign.prototype = {
                 }
             },
             messages: {
-                image: {
-                    required: message.image.required
-                },
                 name: {
                     required: message.name.required,
                     minlength: message.name.minlength

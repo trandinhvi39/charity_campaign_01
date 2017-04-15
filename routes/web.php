@@ -84,6 +84,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('campaign/uploadImage', 'CampaignController@uploadImage');
 
     Route::post('follow/user', 'FollowController@followOrUnFollowUser');
+
+    Route::resource('note', 'NoteController', [
+        'only' => ['store', 'update']
+    ]);
 });
 
 Route::get('', 'CampaignController@index');
@@ -96,11 +100,13 @@ Route::post('comment/create', 'CommentController@store');
 
 Route::post('request-join', 'CampaignController@joinOrLeaveCampaign');
 
+Route::get('campaign-tags/{tags}', 'CampaignController@campaignWithTags');
+
 Route::get('campaign/search', 'CampaignController@searchCampaign');
 
 Route::post('', 'CampaignController@filterCampaign');
 
-Route::resource('event', 'EventController');
+Route::get('tags', 'CampaignController@allTags');
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.','middleware' => 'admin'], function () {
     Route::resource('user', 'UserController', [

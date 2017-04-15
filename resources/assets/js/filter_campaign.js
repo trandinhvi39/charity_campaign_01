@@ -27,34 +27,36 @@ $(document).ready(function(){
     var dataTags = $('.hide-tags').data('tags');
     var arrTags = [];
 
-    for (var i = 0; i < dataTags.length; i++) {
-        arrTags.push(dataTags[i].name);
+    if (dataTags) {
+        for (var i = 0; i < dataTags.length; i++) {
+            arrTags.push(dataTags[i].name);
+        }
+
+        var citynames = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            local: $.map(arrTags, function (city) {
+                return {
+                    name: city
+                };
+            })
+        });
+        citynames.initialize();
+
+        $('#category').tagsinput({
+            typeaheadjs: [{
+                minLength: 1,
+                highlight: true,
+            },{
+                minlength: 1,
+                name: 'citynames',
+                displayKey: 'name',
+                valueKey: 'name',
+                source: citynames.ttAdapter()
+            }],
+            freeInput: true
+        });
     }
-
-    var citynames = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        local: $.map(arrTags, function (city) {
-            return {
-                name: city
-            };
-        })
-    });
-    citynames.initialize();
-
-    $('#category').tagsinput({
-        typeaheadjs: [{
-            minLength: 1,
-            highlight: true,
-        },{
-            minlength: 1,
-            name: 'citynames',
-            displayKey: 'name',
-            valueKey: 'name',
-            source: citynames.ttAdapter()
-        }],
-        freeInput: true
-    });
 });
 
 function callAjaxForFilter(filterFollow) {

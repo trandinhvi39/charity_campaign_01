@@ -15,6 +15,7 @@ use DB;
 use Illuminate\Container\Container;
 use \Carbon\Carbon;
 use App\Services\GoogleMap;
+use App\Models\Tag;
 
 class CampaignRepository extends BaseRepository implements CampaignRepositoryInterface
 {
@@ -29,6 +30,59 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
     function model()
     {
         return Campaign::class;
+    }
+
+    public function getPopularTags()
+    {
+        $tags = Tag::pluck('name');
+        $campaignTags = Campaign::pluck('tags');
+        $tagsCount = [];
+        $countChoisedTags = 0;
+
+        foreach ($tags as $tag) {
+            $count = 0;
+
+            if ($countChoisedTags == config('settings.max_tags')) {
+                break;
+            }
+
+            foreach ($campaignTags as $campaignTag) {
+                if ($campaignTag && strpos($campaignTag, $tag)) {
+                    $count++;
+                }
+            }
+
+            if ($count) {
+                $countChoisedTags++;
+                $tagsCount[] = [
+                    'tag' => $tag,
+                    'count' => $count,
+                ];
+            }
+        }
+
+        $tagsCount = array_values(array_sort($tagsCount, function ($value) {
+            return $value['count'];
+        }));
+
+        $tagsCount = array_reverse($tagsCount);
+
+        return $tagsCount;
+    }
+
+    public function countCampaignsByTag($tag)
+    {
+        return $this->model->where('tags', 'like', "%$tag%")->count();
+    }
+
+    public function getCampaignByTagsName(string $tags)
+    {
+        return $this->model->with('image')
+            ->with(['owner.user', 'owner' => function ($query) {
+                $query->where('is_owner', config('constants.OWNER'));
+            }])
+            ->where('tags', 'like', "%$tags%")
+            ->orderBy('id', 'desc');
     }
 
     public function filterCampaign($type)
@@ -84,6 +138,31 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
                 default:
                     return null;
             }
+    }
+
+    public function getRelatedCampaign($currentCampaign)
+    {
+        $relatedCampaigns = $this->model
+            ->where('id', '<>', $currentCampaign->id)
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $arrayRelated = [];
+        $countCurrentTags = count($currentCampaign->getTags());
+
+        foreach ($relatedCampaigns as $relatedCampaign) {
+            if (count(array_diff($currentCampaign->getTags(), $relatedCampaign->getTags())) < $countCurrentTags
+                ) {
+                $arrayRelated[] = $relatedCampaign;
+            }
+        }
+
+        if (count($arrayRelated) >= config('settings.number_of_suggested_campaigns')) {
+            return collect($arrayRelated)
+                ->take(config('settings.number_of_suggested_campaigns'));
+        }
+
+        return $arrayRelated;
     }
 
     public function getSuggestNearestCampaigns($currentCampaign)
@@ -146,80 +225,6 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
                 $query->where('is_owner', config('constants.OWNER'));
             }])
             ->orderBy('id', 'desc');
-    }
-
-    public function updateCampaign($params = [], $id)
-    {
-        if (empty($params)) {
-
-            return false;
-        }
-
-        $campaign = $this->find($id);
-
-        if (!$campaign) {
-            return false;
-        }
-
-        DB::beginTransaction();
-        try {
-            if (isset($params['image'])) {
-                $image = $this->uploadImage($params['image'], config('path.campaign'));
-                $campaign->image()->delete();
-                $campaign->image()->create([
-                    'image' => $image,
-                ]);
-            }
-
-            $campaign->update([
-                'name' => $params['name'],
-                'description' => $params['description'],
-                'start_time' => $params['start_date'],
-                'end_time' => $params['end_date'],
-                'address' => $params['address'],
-                'lat' => $params['lattitude'],
-                'lng' => $params['longitude'],
-            ]);
-
-            $goals = $params['goal'];
-            $contributions = $params['contribution_type'];
-            $units = $params['unit'];
-            $categoryIds = $params['category_id'];
-
-            foreach ($goals as $key => $goal) {
-                foreach ($contributions as $k => $contribution)  {
-                    if ($key == $k && $contribution && $goal && $units[$k]) {
-                        $inputs[] = [
-                            'name' => $contribution,
-                            'goal' => (int) $goal,
-                            'unit' => $units[$key],
-                        ];
-
-                        if (!isset($categoryIds[$key])) {
-                            $campaign->categories()->create([
-                                'name' => $contribution,
-                                'goal' => (int) $goal,
-                                'unit' => $units[$key],
-                            ]);
-                        }
-                    }
-                }
-            }
-
-            foreach ($campaign->categories as $key => $category) {
-                $category->name = $inputs[$key]['name'];
-                $category->goal = $inputs[$key]['goal'];
-                $category->unit = $inputs[$key]['unit'];
-            }
-
-            DB::commit();
-
-            return $campaign;
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            return false;
-        }
     }
 
     public function createCampaign($params = [])
@@ -546,5 +551,43 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
             ->where('is_owner', config('constants.NOT_OWNER'))
             ->with('user')
             ->get();
+    }
+
+    public function getAllTags()
+    {
+        $tags = Tag::pluck('name');
+        $campaignTags = Campaign::pluck('tags');
+        $tagsCount = [];
+
+        foreach ($tags as $tag) {
+            $count = 0;
+
+            foreach ($campaignTags as $campaignTag) {
+                if ($campaignTag && strpos($campaignTag, $tag)) {
+                    $count++;
+                }
+            }
+
+            if ($count) {
+                $tagsCount[] = [
+                    'tag' => $tag,
+                    'count' => $count,
+                ];
+            }
+        }
+
+        $tagsCount = array_values(array_sort($tagsCount, function ($value) {
+            return $value['count'];
+        }));
+
+        $tagsCount = array_reverse($tagsCount);
+
+        if ($tagsCount) {
+            if (count($tagsCount) <= config('settings.items_per_tag')) {
+                return paginateCollection(collect($tagsCount), count($tagsCount));
+            }
+
+            return paginateCollection(collect($tagsCount), config('settings.items_per_tag'));
+        }
     }
 }

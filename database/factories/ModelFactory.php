@@ -33,13 +33,14 @@ $factory->define(App\Models\Campaign::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $faker->sentence,
-        'description' => $faker->paragraph,
+        'description' => $faker->paragraph($nbSentences = 10, $variableNbSentences = true),
         'address' => $faker->address,
         'lat' => $faker->latitude,
         'lng' => $faker->longitude,
         'start_time' => $faker->date('Y-m-d', $endTime),
         'end_time' => $endTime,
         'status' => $faker->boolean,
+        'tags' => implode(',', array_rand(App\Models\Tag::pluck('id', 'name')->toArray(), rand(3, 8)))
     ];
 });
 
@@ -75,26 +76,3 @@ $factory->define(App\Models\Relationship::class, function (Faker\Generator $fake
         'status' => $faker->boolean,
     ];
 });
-
-$factory->define(App\Models\Event::class, function (Faker\Generator $faker) {
-    static $campaignIds;
-
-    return [
-        'title' => $faker->sentence,
-        'description' => $faker->paragraph,
-        'campaign_id' => $faker->randomElement($campaignIds ?: $campaignIds = App\Models\Campaign::pluck('id')->toArray()),
-    ];
-});
-
-$factory->define(App\Models\Schedule::class, function (Faker\Generator $faker) {
-    static $eventIds;
-
-    return [
-        'name' => $faker->sentence,
-        'description' => $faker->paragraph,
-        'event_id' => $faker->randomElement($eventIds ?: $eventIds = App\Models\Event::pluck('id')->toArray()),
-        'start_time' => $faker->dateTime,
-        'end_time' => $faker->dateTime,
-    ];
-});
-

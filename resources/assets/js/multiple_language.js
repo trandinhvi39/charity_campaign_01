@@ -25,5 +25,21 @@ $(document).ready(function(){
             }
         });
     });
+
+    $('.edit-save-note').on('click', function() {
+        if ($('.edit-content-note').val() == '') {
+            $('.edit-message-note').html($('.message-note').data('messageNote'));
+        } else {
+            $('#edit-note-campaign').submit();
+        }
+    });
+
+    $('.create-save-note').on('click', function() {
+        if ($('.create-content-note').val() == '') {
+            $('.create-message-note').html($('.message-note').data('messageNote'));
+        } else {
+            $('#create-note-campaign').submit();
+        }
+    });
 });
 

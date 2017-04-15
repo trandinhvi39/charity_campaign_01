@@ -110,11 +110,6 @@ class Campaign extends Model
         return $this->hasOne(Group::class);
     }
 
-    public function events()
-    {
-        return $this->hasMany(Event::class);
-    }
-
     public function campaign($id)
     {
         return Campaign::with('image')
@@ -137,5 +132,10 @@ class Campaign extends Model
     public function getTags()
     {
         return explode(",", $this->tags);
+    }
+
+    public function note()
+    {
+        return $this->hasOne(Note::class);
     }
 }

@@ -125,3 +125,25 @@
     left:0px;
     bottom:0;
 }
+
+.btn-note {
+    float: right;
+}
+
+.header-campaign-name {
+    width: 100%;
+}
+
+.show-note {
+    background-color: #888c93;
+    color: white;
+}
+
+.show-note p {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.note {
+    color: blue;
+}

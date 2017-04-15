@@ -7,6 +7,7 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Requests\CommentRequest;
 use App\Repositories\Comment\CommentRepositoryInterface;
+use App\Models\Campaign;
 
 class CommentController extends Controller
 {
@@ -29,6 +30,7 @@ class CommentController extends Controller
                 'text',
             ]);
 
+            $currentCampaign = Campaign::find($inputs['campaign_id']);
             $comment = $this->commentRepository->createComment($inputs);
             $result = [
                 'html' => view('layouts.comment', ['comment' => $comment])->render(),

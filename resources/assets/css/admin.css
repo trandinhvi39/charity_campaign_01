@@ -41,3 +41,11 @@
 .closed {
     color: red;
 }
+
+.show-tags {
+    margin: 5px;
+}
+
+.highlight-tag {
+    background-color: #57edea;
+}

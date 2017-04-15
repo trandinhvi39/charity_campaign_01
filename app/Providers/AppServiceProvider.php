@@ -26,8 +26,8 @@ use App\Repositories\Message\MessageRepository;
 use App\Repositories\Message\MessageRepositoryInterface;
 use App\Repositories\Group\GroupRepository;
 use App\Repositories\Group\GroupRepositoryInterface;
-use App\Repositories\Event\EventRepository;
-use App\Repositories\Event\EventRepositoryInterface;
+use App\Repositories\Note\NoteRepository;
+use App\Repositories\Note\NoteRepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -67,6 +67,6 @@ class AppServiceProvider extends ServiceProvider
         App::bind(ActionRepositoryInterface::class, ActionRepository::class);
         App::bind(MessageRepositoryInterface::class, MessageRepository::class);
         App::bind(GroupRepositoryInterface::class, GroupRepository::class);
-        App::bind(EventRepositoryInterface::class, EventRepository::class);
+        App::bind(NoteRepositoryInterface::class, NoteRepository::class);
     }
 }

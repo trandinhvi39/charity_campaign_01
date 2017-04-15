@@ -37,7 +37,7 @@ return [
     'rating_your_self' => 'Bạn không đuợc phép tự đánh gía mình',
     'un_follow' => 'Bỏ theo dõi',
     'following' => 'Đang theo dõi',
-    'followers' => 'Những người theo dõi',
+    'followers' => 'Số người theo dõi',
     'you' => 'Bạn',
     'stars' => 'Stars',
     'request_status' => [
