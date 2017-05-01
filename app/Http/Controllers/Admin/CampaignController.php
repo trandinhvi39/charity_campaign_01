@@ -80,19 +80,15 @@ class CampaignController extends Controller
                 $campaign->group()->delete();
             }
 
-            if ($campaign->events) {
-                $campaign->events()->delete();
-            }
-
             $campaign->delete();
 
-            if ($email) {
+            /*if ($email) {
                 Mail::queue('email.delete_campaign', [
                 'campaignInfo' => $campaignInfo,
                 ], function ($message) use ($email) {
                     $message->to($email)->subject(trans('email.delete_campaign.subject'));
                 });
-            }
+            }*/
 
             DB::commit();
 

@@ -50,13 +50,15 @@ class UserLoginController extends Controller
         $user = $this->userRepository->getUserLogin($request->all());
 
         if (empty($user)) {
-
             return redirect('login')->withErrors(trans('user.not_found'));
         }
 
         if (empty($user->is_active)) {
-
             return redirect()->to('/login')->withErrors(trans('user.not_active'));
+        }
+
+        if ($user->is_block) {
+            return redirect()->to('/login')->withErrors(trans('user.block'));
         }
 
         if (Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')], $request->get('remember'))) {

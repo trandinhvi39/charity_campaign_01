@@ -122,25 +122,14 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        DB::beginTransaction();
         try {
             $user = $this->user->findOrFail($id);
+            $user->is_block = true;
+            $user->save();
 
-            if ($user->userCampaign) {
-                $user->userCampaign->delete();
-            }
-
-            $user->delete();
-
-            DB::commit();
-
-            return redirect()->action('Admin\UserController@index')->with(['message'=> trans('user.message.delete_success')]);
+            return redirect()->action('Admin\UserController@index')->with(['message'=> trans('user.message.block_success')]);
         } catch (\Exception $e) {
-            DB::rollBack();
-
-            dd($e);
-
-            return redirect()->action('Admin\UserController@index')->with(['message'=> trans('user.message.delete_fail')]);
+            return redirect()->action('Admin\UserController@index')->with(['message'=> trans('user.message.block_fail')]);
         }
     }
 }

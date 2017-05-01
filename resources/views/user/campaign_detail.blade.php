@@ -155,7 +155,7 @@
 
                                 <td>
                                     @foreach ($contribution->categoryContributions as $value)
-                                        <span>{{ $value->category->name }} : <small>{{ $value->amount }}</small></span>
+                                        <span>{{ $value->category->name }} : <small>{{ $value->amount }}</small> ({{ $value->category->unit }})</span>
                                         <br>
                                     @endforeach
                                 </td>

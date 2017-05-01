@@ -15,5 +15,5 @@ return [
     ],
     'paginations' => 'Showing :start to :finish of :numberOfRecords entry|Showing :start to :finish of :numberOfRecords entries',
     'confirm_delete' => 'Are you sure?',
-    'notifications' => 'NOTIFICATIONS',
+    'confirm_block' => 'Are you sure block this user?',
 ];

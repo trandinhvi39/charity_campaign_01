@@ -117,7 +117,7 @@
                                 Form::open([
                                     'route' => ['admin.user.destroy', $user->id],
                                     'method' => 'DELETE',
-                                    'onsubmit' => 'return confirmDelete("' . trans('user.message.confirm_delete') . '")',
+                                    'onsubmit' => 'return confirmDelete("' . trans('user.message.confirm_block') . '")',
                                 ])
                             }}
 
@@ -130,14 +130,14 @@
 
                                 <!-- BUTTON DELETE POLL -->
                                 {{
-                                    Form::button('<i class="material-icons">delete</i>', [
+                                    Form::button('<i class="glyphicon glyphicon-ban-circle"></i>', [
                                         'type' => 'submit',
                                         'class' => 'btn bg-red btn-xs',
                                         'data-toggle' => 'tooltip',
                                         'data-placement' => 'top',
                                         'title' => '',
-                                        'data-original-title' => trans('user.tooltip.delete'),
-                                        'onclick' => 'return confirm("' . trans('label.confirm_delete') . '")'
+                                        'data-original-title' => trans('user.tooltip.block'),
+                                        'onclick' => 'return confirm("' . trans('label.confirm_block') . '")'
                                     ])
                                 }}
                             {{ Form::close() }}

@@ -97,7 +97,7 @@ class User extends Authenticatable
         parent::boot();
 
         static::creating(function ($user) {
-            $user->is_active = config('constants.NOT_ACTIVE');
+            $user->is_active = config('constants.ACTIVATED');
             $user->token_verification = str_random(20);
         });
     }
@@ -149,10 +149,5 @@ class User extends Authenticatable
     public function scopeFilter($query, QueryFilter $filters)
     {
         return $filters->apply($query);
-    }
-
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class);
     }
 }

@@ -107,7 +107,7 @@
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $campaign->name }}</td>
-                            <td>{{ $campaign->description }}</td>
+                            <td>{{ str_limit($campaign->description, 100) }}</td>
                             <td><img src="{{ $campaign->image->image }}" class="img-campaign"></td>
                             <td>{{ $campaign->address }}</td>
                             <td>{{ $campaign->start_time }}</td>

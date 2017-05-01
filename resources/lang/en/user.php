@@ -85,10 +85,13 @@ return [
         'update_fail' => ' Update user FAIL',
         'delete_success' => ' Delete user SUCCESS',
         'delete_fail' => ' Delete user FAIL',
+        'block_success' => 'Block user success',
+        'block_fail' => 'Block user fail',
     ],
     'tooltip' => [
         'edit' => 'Edit this user',
         'delete' => 'Delete this user',
+        'block' => 'Block this user',
     ],
     'placeholder' => [
         'name' => 'Please enter full name of user...',
@@ -105,4 +108,5 @@ return [
         'password' => 'password',
     ],
     'phone_number' => 'Phone number',
+    'block' => 'This user blocked',
 ];

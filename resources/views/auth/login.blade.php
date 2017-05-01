@@ -14,38 +14,19 @@
             </h1>
         </div>
 
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="block push-bit">
             {!! Form::open(['url' => url('/login'), 'method' => 'POST', 'class' => 'form-horizontal form-bordered form-control-borderless']) !!}
-            <div class="form-group">
-                <div class="col-md-8 col-md-offset-2">
-                    <a href="{{ url('/redirect/facebook') }}"
-                       class="btn btn-block btn-social btn-facebook col-lg-2">
-                        <span class="fa fa-facebook"></span>
-                        {{ trans('user.login_facebook') }}
-                    </a>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-8 col-md-offset-2">
-                    <a href="{{ url('/redirect/twitter') }}"
-                       class="btn btn-block btn-social btn-twitter col-lg-2">
-                        <span class="fa fa-twitter"></span>
-                        {{ trans('user.login_twitter') }}
-                    </a>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-8 col-md-offset-2">
-                    <a href="{{ url('/redirect/google') }}"
-                       class="btn btn-block btn-social btn-google col-lg-2">
-                        <span class="fa fa-google"></span>
-                        {{ trans('user.login_google') }}
-                    </a>
-                </div>
-            </div>
-
             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                 <div class="col-xs-12">
                     <div class="input-group">
@@ -89,7 +70,6 @@
             </div>
             <div class="form-group">
                 <div class="col-xs-12 text-center">
-                    <a href="{{ url('/password/reset') }}">{{ trans('user.forgot_password') }}</a>
                     <a href="{{ url('/register') }}">{{ trans('message.register') }}</a>
                 </div>
             </div>

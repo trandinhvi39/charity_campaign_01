@@ -102,13 +102,13 @@
                             <ul class="ml-menu">
                                 <li>
                                     <a href="{{ URL::action('Admin\UserController@index') }}">
-                                        <i class="material-icons">person_add</i>
+                                        <i class="material-icons">people</i>
                                         <span>{{ trans('user.panel_head.index') }}</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ URL::action('Admin\UserController@create') }}">
-                                        <i class="material-icons">people</i>
+                                        <i class="material-icons">person_add</i>
                                         <span>{{ trans('user.panel_head.create') }}</span>
                                     </a>
                                 </li>
@@ -122,13 +122,13 @@
                             <ul class="ml-menu">
                                 <li>
                                     <a href="{{ URL::action('Admin\CampaignController@index') }}">
-                                        <i class="material-icons">person_add</i>
+                                        <i class="glyphicon glyphicon-list"></i>
                                         <span>{{ trans('campaign.panel_head.index') }}</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ URL::action('Admin\CampaignController@create') }}">
-                                        <i class="material-icons">people</i>
+                                        <i class="glyphicon glyphicon-plus"></i>
                                         <span>{{ trans('campaign.panel_head.create') }}</span>
                                     </a>
                                 </li>
@@ -140,7 +140,6 @@
                 <!-- Footer -->
                 <div class="legal">
                     <div class="copyright">
-                         {{ trans('label.footer.copyright') }}
                     </div>
                 </div>
                 <!-- #Footer -->

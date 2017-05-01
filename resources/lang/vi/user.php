@@ -30,7 +30,7 @@ return [
     'setting' => 'Thiết lập tài khoản',
     'your_profile' => 'Trang cá nhân',
     'follow' => 'Theo dõi',
-    'your_campaign' => 'Những chiến dịch của bạn',
+    'your_campaign' => 'Những chiến dịch từ thiện của bạn',
     'joined' => 'Đã tham gia chiến dịch',
     'avatar' => 'Ảnh đại diện',
     'status' => 'Trạng thái',
@@ -62,12 +62,12 @@ return [
         'required' => '*',
     ],
     'panel_head' => [
-        'index' => 'Danh sách nguòi dùng',
+        'index' => 'Danh sách người dùng',
         'create' => 'Tạo người dùng',
         'edit' => 'Chỉnh sửa ngưòi dùng',
     ],
     'button' => [
-        'create' => 'Taọ',
+        'create' => 'Tạo',
         'back' => 'Quay lại',
         'edit' => 'Chỉnh sửa',
         'reset_search' => 'Reset tìm kiếm',
@@ -85,10 +85,13 @@ return [
         'update_fail' => ' Cập nhật thông tin người dùng thất bại',
         'delete_success' => ' Xóa người dùng thành công',
         'delete_fail' => ' Xóa người dùng thất bại',
+        'block_success' => 'Block người dùng thành công',
+        'block_fail' => 'Block người dùng thất bại',
     ],
     'tooltip' => [
         'edit' => 'Chỉnh sửa thông tin người dùng này',
         'delete' => 'Xóa nguời dùng này',
+        'block' => 'Block nguời dùng này',
     ],
     'placeholder' => [
         'name' => 'Vui lòng nhập tên của bạn...',
@@ -105,4 +108,5 @@ return [
         'password' => 'Mật khẩu',
     ],
     'phone_number' => 'Số điện thoại',
+    'block' => 'Tài khoản ngưòi dùng này đã bị block',
 ];

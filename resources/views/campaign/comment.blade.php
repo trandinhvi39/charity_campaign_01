@@ -3,7 +3,7 @@
         <div class="comment">
             <h2>{{ trans('campaign.comments') }}</h2>
             <div class="notify-comment"></div>
-            @if ($campaign->status)
+            @if ($campaign->status && auth()->check())
             {!! Form::open([ 'method' => 'POST', 'class' => 'form-horizontal', 'id' => 'formComment', 'enctype' => 'multipart/form-data']) !!}
             {!! Form::hidden('campaign_id', $campaign->id) !!}
 

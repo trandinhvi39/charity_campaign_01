@@ -7,6 +7,7 @@ use Validator;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Repositories\User\UserRepositoryInterface;
+use Auth;
 
 class UserRegisterController extends Controller
 {
@@ -47,8 +48,9 @@ class UserRegisterController extends Controller
             return redirect('/register')->withErrors(['error'=> trans('user.register.error')]);
         }
 
-        return redirect('/login')
-            ->with(['alert-success' => trans('user.please_verify_email')]);
+        Auth::attempt(['email' => $request->email, 'password' => $request->password]);
+
+        return redirect('');
     }
 
 }

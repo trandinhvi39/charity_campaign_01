@@ -50,6 +50,9 @@
             </div>
             <div class="user-info-sologan">
                 <span class="user-info-social-item">{{ $user->email }}</span>
+                @if ($user->is_block)
+                    <span class="label label-danger"> BLOCKED </span>
+                @endif
             </div>
             <div class="user-info-social">
                 <ul class="list-group">

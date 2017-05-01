@@ -269,7 +269,7 @@ class CampaignRepository extends BaseRepository implements CampaignRepositoryInt
                 foreach ($contributions as $k => $contribution)  {
                     if ($key == $k && $contribution && $goal && $units[$k]) {
                         $inputs[] = [
-                            'name' => $contribution[$key],
+                            'name' => $contribution,
                             'goal' => (int) $goal,
                             'unit' => $units[$key],
                         ];

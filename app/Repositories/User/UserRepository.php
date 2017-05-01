@@ -49,7 +49,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             return false;
         }
 
-        if (!$isRoleAdmin) {
+        /*if (!$isRoleAdmin) {
             $email = $data['email'];
 
             Mail::queue('email.register', [
@@ -58,7 +58,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ], function ($message) use ($email) {
                 $message->to($email)->subject(trans('email.subject'));
             });
-        }
+        }*/
 
         return $user;
     }
@@ -174,6 +174,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function getUserByRating()
     {
         return $this->model->orderBy('star', 'desc')
+            ->where('is_block', '<>', 1)
             ->take(config('constants.USER_LIMIT'))
             ->get();
     }

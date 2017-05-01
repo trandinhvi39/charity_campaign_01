@@ -107,7 +107,7 @@ UserProfile.prototype = {
     followingUserTable: function () {
         $('#tableFollowing').DataTable();
     },
-    
+
     followerUserTable: function () {
         $('#tableFollower').DataTable();
     },

@@ -12,7 +12,6 @@ use App\Repositories\Contribution\ContributionRepositoryInterface;
 use App\Repositories\Rating\RatingRepositoryInterface;
 use App\Repositories\Follow\FollowRepositoryInterface;
 use App\Repositories\Action\ActionRepositoryInterface;
-use App\Models\Notification;
 
 class UserController extends BaseController
 {
@@ -119,10 +118,13 @@ class UserController extends BaseController
             'id' => $user->id,
             'name' => $user->name = $request->get('name'),
             'email' => $request->get('email'),
-            'password' => bcrypt($request->get('password')),
             'avatar' => $request->file('avatar'),
             'phone_number' => $request->phone_number,
         ];
+
+        if (isset($request->all()['password']) && $request->all()['password'] != "") {
+            $params['password'] = bcrypt($request->get('password'));
+        }
 
         // update user
         $user = $this->userRepository->updateProfile($params, $id);
@@ -181,27 +183,5 @@ class UserController extends BaseController
         $this->dataView['campaigns'] = $this->campaignRepository->listCampaignOfUser($id)->get();
 
         return view('user.campaign_detail', $this->dataView);
-    }
-
-    public function manageCampaignAndDeleteNotification($id, $campaignId, $notificationId)
-    {
-        try {
-            $this->dataView['user'] = $this->user->findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            return abort(404);
-        }
-
-        $this->dataView['campaign'] = $this->campaignRepository->getDetail($campaignId);
-
-        if (!$this->dataView['campaign']) {
-            return abort(404);
-        }
-
-        Notification::destroy($notificationId);
-
-        return redirect()->action('UserController@manageCampaign', [
-            'id' => $id,
-            'campaignId' => $campaignId,
-        ]);
     }
 }

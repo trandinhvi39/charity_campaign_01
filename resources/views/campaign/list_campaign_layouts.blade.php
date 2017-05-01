@@ -81,9 +81,9 @@
                             <p class="push-bit">
                                 <strong>{{{ date('Y-m-d', strtotime($campaign->end_time)) }}}</strong>
                             </p>
-                            <p>
+                           <!--  <p>
                                 <span>{{ trans('campaign.message_end_campaign', ['time' => Carbon\Carbon::now()->addSeconds(strtotime($campaign->end_time) - time())->diffForHumans()]) }}</span>
-                            </p>
+                            </p> -->
                         </div>
                     </li>
                 </ul>
