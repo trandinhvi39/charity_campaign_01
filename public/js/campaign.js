@@ -12,7 +12,6 @@ Campaign.prototype = {
         _self.ckeditor();
         _self.category();
         _self.validate();
-
     },
 
     setDatepicker: function () {
@@ -44,7 +43,7 @@ Campaign.prototype = {
             filebrowserUploadUrl: _self.url
         });
     },
-    
+
     category: function () {
         var _self = this;
         var message = JSON.parse(_self.validateMessage);

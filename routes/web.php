@@ -10,6 +10,18 @@
 | to using a Closure or controller method. Build something great!
 |
  */
+// function getRange ($max = 100) {
+//     for ($i = 1; $i < $max; $i++) {
+//         yield $i;
+//     }
+// }
+//
+// Route::get('test-generator', function() {
+//
+//     foreach (getRange(PHP_INT_MAX) as $range) {
+//         echo "Dataset {$range}<br>";
+//     }
+// });
 
 Auth::routes();
 
